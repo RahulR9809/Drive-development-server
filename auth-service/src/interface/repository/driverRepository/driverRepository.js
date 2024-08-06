@@ -47,9 +47,20 @@ export class DriverRepository {
       { new: true }
     );
   }
-  async getAllDrivers() {
-    return await driverModel.find({});
-  }
+  async getAllDrivers(filter,page,limit) {
+    try {
+      console.log('f',filter,page,limit);
+      
+     const result =  await driverModel.find(filter, { password: 0 }).skip(page-1).limit(limit);
+     console.log(result);
+     
+     return result
+    } catch (error) {
+      console.error(error);
+      
+    }
+        
+      }
 
   async findDriverByIdAndApprove(driverId) {
     return await driverModel.findByIdAndUpdate(
@@ -57,4 +68,18 @@ export class DriverRepository {
       { $set: { isAccepted: true } }
     );
   }
+
+  async getTotalDocs(){
+    try {
+      const  totalDocs = await driverModel.countDocuments()
+      return totalDocs
+    } catch (error) {
+      
+    }
+  }
+  
 }
+
+  
+
+
