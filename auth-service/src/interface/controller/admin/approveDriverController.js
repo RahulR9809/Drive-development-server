@@ -4,11 +4,14 @@ export class ApproveDriverController{
     }
     async approve(req,res,next){
         try {
-            console.log('approovadkdkj');
             const {driverId} = req.params
               const driverApproval =   await this.driverApproveUseCase.execute(driverId)
-              res.status(200).json({message:'Driver has been Approved'})
-        } catch (error) {
+              const driverUpdatedData = {
+                id:driverApproval._id,
+                isAccepted:driverApproval.isAccepted
+              }
+              res.status(200).json({driverUpdatedData,message:'Driver has been Approved'})
+        } catch (error) { 
             console.error(error)
         }
     }

@@ -50,11 +50,14 @@ export class DriverRepository {
   async getAllDrivers(filter,page,limit) {
     try {
       console.log('f',filter,page,limit);
+      
      const result =  await driverModel.find(filter, { password: 0 }).skip(page-1).limit(limit);
      console.log(result);
+     
      return result
     } catch (error) {
       console.error(error);
+      
     }
         
       }
@@ -62,8 +65,7 @@ export class DriverRepository {
   async findDriverByIdAndApprove(driverId) {
     return await driverModel.findByIdAndUpdate(
       { _id: driverId },
-      { $set: { isAccepted: true } },
-      {new:true}
+      { $set: { isAccepted: true } }
     );
   }
 

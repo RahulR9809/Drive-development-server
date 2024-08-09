@@ -1,8 +1,12 @@
 import { createAccessToken, createRefreshToken } from "../../utils/jwt.js";
 import { S3Config } from "../../utils/s3-bucketConfig.js";
+import { KafkaClient } from "../../events/KafkaClient.js";
+import { TOPIC ,USER_UPDATED } from "../../events/config.js";
+
 export class VerifyOtpUseCase {
   constructor(dependencies) {
     this.userRepository = new dependencies.repository.MongoUserRepository();
+    this.kafka = new KafkaClient()
   }
   async execute(sessionData, enteredOtp) {
     try {
@@ -32,6 +36,15 @@ export class VerifyOtpUseCase {
         userId,
         updateVerificationStatus
       );
+      const userDataToPublish = {
+        _id:verifyUser._id,
+        isVerified:verifyUser.isVerified,
+      }
+
+      this.kafka.produceMessage(TOPIC,{
+        type:USER_UPDATED,
+        value:JSON.stringify(userDataToPublish)
+      })
 
       let getImageUrl;
       if (verifyUser.profileImg) {

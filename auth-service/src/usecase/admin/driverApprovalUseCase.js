@@ -4,10 +4,8 @@ export class DriverApprovalUseCase {
   }
   async execute(driverId) {
     try {
-      const approveDriver =
-        await this.driverRepository.findDriverByIdAndApprove(driverId);
-        console.log(approveDriver);
-      return;
+      const approveDriver = await this.driverRepository.findDriverByIdAndApprove(driverId);
+      return approveDriver
     } catch (error) {
       console.error(error);
     }

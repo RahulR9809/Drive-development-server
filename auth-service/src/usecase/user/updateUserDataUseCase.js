@@ -1,7 +1,11 @@
 import { S3Config } from "../../utils/s3-bucketConfig.js";
+import { KafkaClient } from "../../events/KafkaClient.js";
+import { TOPIC ,USER_UPDATED } from "../../events/config.js";
+
 export class UpdateUserDataUseCase {
   constructor(dependencies) {
     this.userRepository = new dependencies.repository.MongoUserRepository();
+    this.kafka = new KafkaClient()
   }
   async execute(body, file) {
     const awsS3Config = new S3Config();
@@ -15,7 +19,27 @@ export class UpdateUserDataUseCase {
       const userProfileUpdate = await this.userRepository.findByIdUpdate(
         body.userId,
         dataToUpdate
-      );
+      )
+
+      const userDataToPublish = {
+        _id:userProfileUpdate._id,
+        name:userProfileUpdate.name,
+        email:userProfileUpdate.email,
+        phone:userProfileUpdate.phone,
+        authType:userProfileUpdate.authType,
+        isBlocked:userProfileUpdate.isBlocked,
+        isVerified:userProfileUpdate.isVerified,
+        isProfileComplete:userProfileUpdate.isProfileComplete,
+        createdAt:userProfileUpdate.createdAt,
+        profileImg:userProfileUpdate.profileImg
+      }
+      console.log('userData',userDataToPublish);
+    
+      this.kafka.produceMessage(TOPIC,{
+        type:USER_UPDATED,
+        value:JSON.stringify(userDataToPublish)
+      })
+
       const imgUrlFromS3 = await awsS3Config.getImageUrl({
         imgField: "profileImg",
         Key: userProfileUpdate?.profileImg,
@@ -43,6 +67,26 @@ export class UpdateUserDataUseCase {
         body.userId,
         dataToUpdate
       );
+
+      const userDataToPublish = {
+        _id:userProfileUpdate._id,
+        name:userProfileUpdate.name,
+        email:userProfileUpdate.email,
+        phone:userProfileUpdate.phone,
+        authType:userProfileUpdate.authType,
+        isBlocked:userProfileUpdate.isBlocked,
+        isVerified:userProfileUpdate.isVerified,
+        isProfileComplete:userProfileUpdate.isProfileComplete,
+        createdAt:userProfileUpdate.createdAt,
+        profileImg:userProfileUpdate.profileImg
+      }
+      console.log('userDataToPublish',userDataToPublish);
+      
+      this.kafka.produceMessage(TOPIC,{
+        type:USER_UPDATED,
+        value:JSON.stringify(userDataToPublish)
+      })
+
       const imgUrlFromS3 = await awsS3Config.getImageUrl({
         imgField: "profileImg",
         Key: userProfileUpdate?.profileImg,

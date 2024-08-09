@@ -49,6 +49,10 @@ export class CompleteProfileUseCase {
       },
       isProfileComplete:true
     }
+    console.log(driverId);
+    console.log('after Body',driverId);
+
+    
 
   const updateDriverProfile  = await this.driverRepository.findDriverByIdAndUpdate(driverId,detailsToInsert)
       const imageUrl = await Promise.all(
@@ -69,6 +73,8 @@ export class CompleteProfileUseCase {
           permitUrl = img.url
         }
       }
+
+      
 
       return {
         id: updateDriverProfile._id,
