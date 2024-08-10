@@ -1,14 +1,19 @@
 
+import { DRIVER_UPDATED, TOPIC } from "../../events/config.js";
+import { KafkaClient } from "../../events/KafkaClient.js";
 import { S3Config } from "../../utils/s3-bucketConfig.js";
 export class CompleteProfileUseCase {
   constructor(dependencies) {
     this.driverRepository = new dependencies.repository.MongoDriverRepository();
+    this.kafka = new KafkaClient()
   }
   async execute(body, files) {
 
     //Getting details from Request Body
 
     const { licenseNumber, vehicleType, vehicleRC, driverId } = body;
+    console.log('body obj',body);
+    
     if(!licenseNumber || !vehicleType || !vehicleRC || !driverId){
         const error = new Error()
         error.message('Fill all the Fields')
@@ -51,10 +56,30 @@ export class CompleteProfileUseCase {
     }
     console.log(driverId);
     console.log('after Body',driverId);
-
+ 
     
 
   const updateDriverProfile  = await this.driverRepository.findDriverByIdAndUpdate(driverId,detailsToInsert)
+ 
+  const dataToPublish = {
+    _id:updateDriverProfile._id,
+    license_Number:updateDriverProfile.license_Number ,
+    license_Img :updateDriverProfile.license_Img,
+    profileImg:updateDriverProfile.profileImg,
+    vehicleDetails:{
+      vehicle_type:updateDriverProfile?.vehicleDetails?.vehicle_type,
+      rc_Number:updateDriverProfile?.vehicleDetails?.rc_Number,
+      permit:updateDriverProfile?.vehicleDetails?.permit
+    },
+    isProfileComplete:updateDriverProfile?.isProfileComplete
+  }
+  console.log('dataToPublish',dataToPublish);
+  
+  
+  this.kafka.produceMessage(TOPIC,{
+    type:DRIVER_UPDATED,
+    value:JSON.stringify(dataToPublish)
+  })
       const imageUrl = await Promise.all(
         uploadResults.map((img) => {
           return s3Instance.getImageUrl(img);

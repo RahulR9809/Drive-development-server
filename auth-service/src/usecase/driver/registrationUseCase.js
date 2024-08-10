@@ -1,10 +1,15 @@
 import { hash } from "../../utils/hash.js";
 import sendMail from "../../utils/nodemailer.js";
+import { KafkaClient } from "../../events/KafkaClient.js";
+import { DRIVER_CREATED,TOPIC } from "../../events/config.js";
+
+
 export class DriverRegisterUseCase {
   constructor(dependencies) {
     this.driverRepository = new dependencies.repository.MongoDriverRepository(
       dependencies
     );
+    this.kafka = new KafkaClient()
   }
   async execute(registerDetails) {
     try {
@@ -38,6 +43,30 @@ export class DriverRegisterUseCase {
           const createUser = await this.driverRepository.createDriver(
             dataToInsert
           );
+          const dataToPublish = {
+            _id:createUser._id,
+            name:createUser.name,
+            email:createUser.email,
+            phone:createUser.phone,
+            license_Number:createUser.license_Number,
+            license_Img:createUser.license_Img,
+            vehicleDetails:{
+              vehicle_type:createUser?.vehicleDetails?.vehicle_type,
+              rc_Number:createUser?.vehicleDetails?.rc_Number,
+              permit:createUser?.vehicleDetails?.permit,
+              _id:createUser?.vehicleDetails?._id
+            },
+            wallet:createUser.wallet,
+            isBlocked:createUser.isBlocked,
+            isVerified:createUser.isVerified,
+            isProfileComplete:createUser.isProfileComplete,
+            isAccepted:createUser.isAccepted,
+            editRequest:createUser.editRequest
+          }
+          this.kafka.produceMessage(TOPIC,{
+            type:DRIVER_CREATED,
+            value:JSON.stringify(dataToPublish)
+          })
           return {
             userId: createUser._id,
             otp

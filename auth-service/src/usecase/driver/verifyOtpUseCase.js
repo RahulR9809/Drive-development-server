@@ -1,7 +1,10 @@
+import { KafkaClient } from "../../events/KafkaClient.js";
 import { createAccessToken, createRefreshToken } from "../../utils/jwt.js";
+import {TOPIC,DRIVER_UPDATED} from '../../events/config.js'
 export class DriverVerifyOtpUseCase {
   constructor(dependencies) {
     this.driverRepository = new dependencies.repository.MongoDriverRepository();
+    this.kafka = new KafkaClient()
   }
   async execute(sessionData, enteredOtp) {
     try {
@@ -18,7 +21,7 @@ export class DriverVerifyOtpUseCase {
             );
             console.log("verifyuser", verifyUser);
             const data = {
-              id: verifyUser?._id,
+              _id: verifyUser?._id,
               name: verifyUser?.name,
               email: verifyUser?.email,
               phone: verifyUser?.phone,
@@ -28,6 +31,18 @@ export class DriverVerifyOtpUseCase {
               isAccepted:verifyUser?.isAccepted,
               editRequest:verifyUser?.editRequest
             };
+
+            const dataToPublish = {
+              _id:verifyUser._id,
+              isVerified:verifyUser.isVerified
+            }
+
+            this.kafka.produceMessage(TOPIC,{
+              type:DRIVER_UPDATED,
+              value:JSON.stringify(data)
+
+            })
+
             return {
               data
             };
@@ -46,7 +61,7 @@ export class DriverVerifyOtpUseCase {
           throw error
         }
       } else {
-      
+
         const error = new Error()
         error.status = 401;
         error.message = 'Otp Expired'

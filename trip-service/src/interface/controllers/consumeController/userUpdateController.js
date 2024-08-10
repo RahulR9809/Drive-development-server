@@ -4,8 +4,8 @@ export class UserUpdateController{
     }
     async updateUser(data){
         try {
-            const id = data?._id
-            await this.userUpdateUseCase.execute(id,data)
+           const {_id,...rest} = data
+            await this.userUpdateUseCase.execute(_id,rest)
         } catch (error) {
             console.log(error);
             

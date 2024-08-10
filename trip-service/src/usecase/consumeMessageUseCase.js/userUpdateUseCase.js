@@ -6,9 +6,7 @@ export class UserUpdateUseCase{
         try {
             console.log('user Updated UseCase');
             console.log('userid',id,data);
-       const result =    await  this.userRepository.findByIdUpdate(id,data)
-       console.log('hjdk',result);
-       
+       const result =   await  this.userRepository.findByIdUpdate(id,data)
         } catch (error) {
             console.log(error);
             

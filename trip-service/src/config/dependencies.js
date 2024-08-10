@@ -1,9 +1,11 @@
-import { UserCreatedConsumerUseCase,UserUpdateUseCase} from '../usecase/index.js'
-import {MongoAdminRepository,MongoUserRepository,MongoDriverRepository} from '../interface/repository/index.js'
+import { UserCreatedConsumerUseCase,UserUpdateUseCase,DriverCreatedConsumerUseCase,DriverUpdateConsumerUseCase} from '../usecase/index.js'
+import {MongoAdminRepository,MongoUserRepository,MongoDriverRepository,} from '../interface/repository/index.js'
 
 const useCase = {
     UserCreatedConsumerUseCase,
-    UserUpdateUseCase
+    UserUpdateUseCase,
+    DriverCreatedConsumerUseCase,
+    DriverUpdateConsumerUseCase
 }
 
 const repository = {
