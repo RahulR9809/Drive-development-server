@@ -62,6 +62,16 @@ const driverSchema = new mongoose.Schema({
   editRequest:{
     type:Boolean,
     default:false
+  },
+  currentLocation:{
+    type:{
+      type:String,
+      enum:['point'],
+      default:'point'
+    },
+    coordinates:{
+      type:Array
+    }
   }
 });
 

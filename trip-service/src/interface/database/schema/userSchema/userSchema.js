@@ -1,5 +1,21 @@
 import mongoose from "mongoose";
 
+const savedLocationSchema = new mongoose.Schema({
+  name:{
+    type:String
+  },
+  address:{
+    type:{
+      type:String,
+      enum:['point'],
+      default:'point'
+    },
+    coordinates:{
+      type:Array
+    }
+  }
+})
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -11,8 +27,8 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: Number,
   },
-  profileImg:{
-    type:String
+  profileImg: {
+    type: String,
   },
   authType: {
     type: String,
@@ -31,12 +47,26 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  currentLocation: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      default: "Point",
+    },
+    coordinates: {
+      type: Array,
+    },
+  },
+  savedLocation : {
+    type:[savedLocationSchema]
+  },
+  
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-userSchema.index({ location: "2dsphere" });
+userSchema.index({ currentLocation: "2dsphere" });
 
 export const userModel = mongoose.model("user", userSchema);

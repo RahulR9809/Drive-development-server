@@ -47,20 +47,21 @@ export class DriverRepository {
       { new: true }
     );
   }
-  async getAllDrivers(filter,page,limit) {
+  async getAllDrivers(filter, page, limit) {
     try {
-      console.log('f',filter,page,limit);
-      
-     const result =  await driverModel.find(filter, { password: 0 }).skip(page-1).limit(limit);
-     console.log(result);
-     
-     return result
+      console.log("f", filter, page, limit);
+
+      const result = await driverModel
+        .find(filter, { password: 0 })
+        .skip(page - 1)
+        .limit(limit);
+      console.log(result);
+
+      return result;
     } catch (error) {
       console.error(error);
-      
     }
-        
-      }
+  }
 
   async findDriverByIdAndApprove(driverId) {
     return await driverModel.findByIdAndUpdate(
@@ -69,17 +70,77 @@ export class DriverRepository {
     );
   }
 
-  async getTotalDocs(){
+  async getTotalDocs() {
     try {
-      const  totalDocs = await driverModel.countDocuments()
-      return totalDocs
+      const totalDocs = await driverModel.countDocuments();
+      return totalDocs;
+    } catch (error) {}
+  }
+
+  async findNearstDriversAvailable(pickupCoordinates) {
+    try {
+      const data = await driverModel.aggregate([
+        {
+          $geoNear: {
+            near: {
+              type: "Point",
+              coordinates: [pickupCoordinates[0], pickupCoordinates[1]],
+            },
+            distanceField: "dist.calculated",
+            maxDistance: 8000,
+            query: { isAccepted: true },
+            spherical: true,
+          },
+        },
+        {
+          $match: {
+            isBlocked: false,
+            isVerified: true,
+          },
+        },
+      ]);
+      console.log("data", data);
+      return data;
+    } catch (error) {}
+  }
+  async rideRequestToSelectedVehicle(pickupCoordinates, vehicleType) {
+    try {
+      const data = await driverModel.aggregate([
+        {
+          $geoNear: {
+            near: {
+              type: "Point",
+              coordinates: [pickupCoordinates[0], pickupCoordinates[1]],
+            },
+            distanceField: "dist.calculated",
+            maxDistance: 8000,
+            query: { isAccepted: true },
+            spherical: true,
+          },
+        },
+        {
+          $match: {
+            isBlocked: false,
+            isVerified: true,
+            "vehicleDetails.vehicle_type": vehicleType,
+            isActive:true,  
+            // currentStatus:'active'
+        }
+      }
+      ]);
+      return data;
+    } catch (error) {}
+  }
+
+  async updateDriverStatus(driverId, status) {
+    try {
+      return await driverModel.findByIdAndUpdate(
+        { _id: driverId },
+        { $set: status },
+        {new:true}
+      );
     } catch (error) {
-      
+      console.error(error);
     }
   }
-  
 }
-
-  
-
-

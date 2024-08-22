@@ -2,10 +2,35 @@ import { UserCreatedConsumerUseCase  } from "./consumeMessageUseCase.js/userCrea
 import { UserUpdateUseCase } from "./consumeMessageUseCase.js/userUpdateUseCase.js";
 import {DriverCreatedConsumerUseCase} from './consumeMessageUseCase.js/driverCreatedUseCase.js'
 import { DriverUpdateConsumerUseCase } from "./consumeMessageUseCase.js/driverUpdatedUseCase.js";
+import { UserCurrentLocationUseCase } from "./user/getCurrentLocationUseCase.js";
+import {LocationAutoCompleteUseCase} from './user/locationAutoCompleteUseCase.js'
+import { GetDriverOnlineUseCase } from "./driver/getOnlineUseCase.js";
+import { GetNearByDriverUseCase } from "./user/getNearByDriverUseCase.js";
+import {RideRequestUseCase} from './user/requestRideUseCase.js'
+import { GetAdditionalTripDataUseCase } from "./user/getAdditionalTripData.js";
+
+
+import { AcceptRideUseCase } from "./driver/acceptRideUseCase.js";
+import { RejectRideUseCase } from "./driver/rejectRideUseCase.js";
+import { StartRideUseCase } from "./driver/startRideUseCase.js";
+import { RideCompleteUseCase } from "./driver/rideCompleteUseCase.js";
+import { GetDriverOfflineUseCase } from "./driver/getDriverOfflineUseCase.js";
+
 
 export {
     UserCreatedConsumerUseCase,
     UserUpdateUseCase,
     DriverCreatedConsumerUseCase,
-    DriverUpdateConsumerUseCase
+    DriverUpdateConsumerUseCase,
+    UserCurrentLocationUseCase,
+    LocationAutoCompleteUseCase,
+    GetDriverOnlineUseCase,
+    GetDriverOfflineUseCase,
+    GetNearByDriverUseCase,
+    RideRequestUseCase,
+    GetAdditionalTripDataUseCase,
+    AcceptRideUseCase,
+    RejectRideUseCase,
+    StartRideUseCase,
+    RideCompleteUseCase
 }
