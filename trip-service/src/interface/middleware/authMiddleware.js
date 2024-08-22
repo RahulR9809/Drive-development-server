@@ -8,6 +8,7 @@ import {
 export class AuthHandler {
   static async isUserLogin(req, res, next) {
     try {
+      console.log('entry in repo');
       const userRepository = new MongoUserRepository();
       if (!req.headers["Authorization"] && !req.headers["authorization"]) {
         const error = new Error();
@@ -38,7 +39,8 @@ export class AuthHandler {
         throw error;
       }
       const isUservalid = await userRepository.findUserById(decodeToken.id);
-
+      console.log('isUserValid',isUservalid);
+  
       if (!isUservalid || isUservalid.isBlocked) {
         const error = new Error();
         error.status = 403;
@@ -53,6 +55,10 @@ export class AuthHandler {
   }
   static async isDriverLogin(req, res, next) {
     try {
+      console.log('hi');
+      console.log(req.body);
+      
+      
       const driverRepository = new MongoDriverRepository();
       if (!req.headers["Authorization"] && !req.headers["authorization"]) {
         const error = new Error();
@@ -82,13 +88,17 @@ export class AuthHandler {
         error.message = "You are not Authorized";
         throw error; 
       }
-      const isDrivervalid = await userRepository.findDriverbyId(decodeToken.id);
+      console.log('decodeToken',decodeToken);
+      
+      const isDrivervalid = await driverRepository.findDriverbyId(decodeToken._id);
+console.log(isDrivervalid);
 
       if (!isDrivervalid || isDrivervalid.isBlocked) {
         const error = new Error();
         error.status = 403;
         error.status = "Not Authorized";
       }
+console.log('next reaached');
 
       next();
     } catch (error) {

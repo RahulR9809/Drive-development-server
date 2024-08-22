@@ -8,6 +8,8 @@ import {
 export class AuthHandler {
   static async isUserLogin(req, res, next) {
     try {
+      console.log('inside the authhandler middlware');
+      
       const userRepository = new MongoUserRepository();
       if (!req.headers["Authorization"] && !req.headers["authorization"]) {
         const error = new Error();
