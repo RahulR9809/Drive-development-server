@@ -11,7 +11,8 @@ const savedLocationSchema = new mongoose.Schema({
       default:'point'
     },
     coordinates:{
-      type:Array
+      type:Array,
+      default:[0,0]
     }
   }
 })
@@ -55,6 +56,7 @@ const userSchema = new mongoose.Schema({
     },
     coordinates: {
       type: Array,
+      default:[0,0]
     },
   },
   savedLocation : {

@@ -10,6 +10,8 @@ export class UpdateUserDataUseCase {
   async execute(body, file) {
     const awsS3Config = new S3Config();
     let dataToUpdate;
+    console.log('userId',body.userId,body);
+    
     if (file == undefined) {
       dataToUpdate = {
         name: body?.name,
@@ -22,16 +24,16 @@ export class UpdateUserDataUseCase {
       )
 
       const userDataToPublish = {
-        _id:userProfileUpdate._id,
-        name:userProfileUpdate.name,
-        email:userProfileUpdate.email,
-        phone:userProfileUpdate.phone,
-        authType:userProfileUpdate.authType,
-        isBlocked:userProfileUpdate.isBlocked,
-        isVerified:userProfileUpdate.isVerified,
-        isProfileComplete:userProfileUpdate.isProfileComplete,
-        createdAt:userProfileUpdate.createdAt,
-        profileImg:userProfileUpdate.profileImg
+        _id:userProfileUpdate?._id,
+        name:userProfileUpdate?.name,
+        email:userProfileUpdate?.email,
+        phone:userProfileUpdate?.phone,
+        authType:userProfileUpdate?.authType,
+        isBlocked:userProfileUpdate?.isBlocked,
+        isVerified:userProfileUpdate?.isVerified,
+        isProfileComplete:userProfileUpdate?.isProfileComplete,
+        createdAt:userProfileUpdate?.createdAt,
+        profileImg:userProfileUpdate?.profileImg
       }
       console.log('userData',userDataToPublish);
     
@@ -40,18 +42,23 @@ export class UpdateUserDataUseCase {
         value:JSON.stringify(userDataToPublish)
       })
 
-      const imgUrlFromS3 = await awsS3Config.getImageUrl({
-        imgField: "profileImg",
-        Key: userProfileUpdate?.profileImg,
-      });
-      console.log("url", imgUrlFromS3);
+      let imgUrlFromS3
+      if(userProfileUpdate?.profileImg){
+         imgUrlFromS3 = await awsS3Config.getImageUrl({
+          imgField: "profileImg",
+          Key: userProfileUpdate?.profileImg,
+        });
+        console.log("url", imgUrlFromS3);
+      }
+
+     
       return {
         id: userProfileUpdate?._id,
         name: userProfileUpdate?.name,
         email: userProfileUpdate?.email,
         phone: userProfileUpdate?.phone,
         isBlocked: userProfileUpdate?.isBlocked,
-        profileUrl: imgUrlFromS3.url,
+        profileUrl:imgUrlFromS3?.url
       };
     } else {
       const uploadedImg = await awsS3Config.uploadImage(file);
