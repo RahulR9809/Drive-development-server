@@ -24,6 +24,6 @@ driverRouter.put('/online',AuthHandler.isDriverLogin,async(req,res,next)=>{contr
 driverRouter.put('/offline',AuthHandler.isDriverLogin,async(req,res,next)=>{controllers.getOfflineController.getOffline(req,res,next)})
 driverRouter.post('/accept-ride',AuthHandler.isDriverLogin,async(req,res,next)=>{controllers.rideAcceptController.acceptRide(req,res,next)})
 driverRouter.post('/reject-ride',AuthHandler.isDriverLogin,async(req,res,next)=>{controllers.rideRejectController.rejectRide(req,res,next)})
-driverRouter.post('/verify-start-ride',AuthHandler.isDriverLogin,async(req,res,next)=>{controllers.startRideController.startRide(req,res,next)})
-driverRouter.post('/ride-completed',AuthHandler.isDriverLogin,async(req,res,next)=>{controllers.rideCompleteController.completeRide(req,res,next)})
+driverRouter.post('/start-ride',AuthHandler.isDriverLogin,async(req,res,next)=>{controllers.startRideController.startRide(req,res,next)})
+driverRouter.post('/complete-ride',AuthHandler.isDriverLogin,async(req,res,next)=>{controllers.rideCompleteController.completeRide(req,res,next)})
 export default driverRouter

@@ -1,11 +1,14 @@
 import { notifyDriver } from "../../utils/socket.js";
 import { RideRequestQueue } from "../../utils/helpers/rideRequestQueue.js";
 import { generateRandomUniqueId } from "../../utils/createUniqueId.js";
+import { KafkaClient } from "../../events/KafkaClient.js";
+import { TRIP_TOPIC,TRIP_CREATED } from "../../events/config.js";
 export class RideRequestUseCase {
   constructor(dependencies) {
     this.driverRepository = new dependencies.repository.MongoDriverRepository();
     this.tripRepository = new dependencies.repository.MongoTripRepository();
     this.requestQueue = new RideRequestQueue();
+    this.kafka = new KafkaClient()
   }
   async execute(data) {
   //   try {
@@ -138,6 +141,30 @@ export class RideRequestUseCase {
 
     // Create the trip in the repository
     const createTrip = await this.tripRepository.createTrip(dataToInsert);
+
+    const dataToPublish ={
+      _id:createTrip?._id,
+      userId:createTrip?.userId,
+      driverId:createTrip?.driverId,
+      tripStatus:createTrip?.tripStatus,
+      requestStatus:createTrip?.requestStatus,
+      rejectedDrivers:createTrip?.rejectedDrivers,
+      fare:createTrip?.fare,
+      startLocation:createTrip?.startLocation,
+      endLocation:createTrip?.endLocation,
+      startTime:createTrip?.startTime,
+      endTime:createTrip?.endTime,
+      distance:createTrip?.distance,
+      duration:createTrip?.duration,
+      pickupLocation:createTrip?.pickupLocation,
+      dropOffLocation:createTrip?.dropOffLocation,
+      createdAt:createTrip?.createdAt
+    }
+
+    this.kafka.produceMessage(TRIP_TOPIC,{
+      type:TRIP_CREATED,
+      value:JSON.stringify(dataToPublish)
+    })
 
     // Find nearest drivers based on vehicle type
     const nearestDrivers = await this.driverRepository.rideRequestToSelectedVehicle(

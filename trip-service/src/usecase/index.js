@@ -13,8 +13,9 @@ import { GetAdditionalTripDataUseCase } from "./user/getAdditionalTripData.js";
 import { AcceptRideUseCase } from "./driver/acceptRideUseCase.js";
 import { RejectRideUseCase } from "./driver/rejectRideUseCase.js";
 import { StartRideUseCase } from "./driver/startRideUseCase.js";
-import { RideCompleteUseCase } from "./driver/rideCompleteUseCase.js";
+// import { RideCompleteUseCase } from "./driver/rideCompleteUseCase.js";
 import { GetDriverOfflineUseCase } from "./driver/getDriverOfflineUseCase.js";
+import { CompleteRideUseCase } from "./driver/completeRideUseCase.js";
 
 
 export {
@@ -32,5 +33,6 @@ export {
     AcceptRideUseCase,
     RejectRideUseCase,
     StartRideUseCase,
-    RideCompleteUseCase
+    // RideCompleteUseCase,
+    CompleteRideUseCase
 }

@@ -12,10 +12,11 @@ import {
   AcceptRideUseCase,
   RejectRideUseCase,
   StartRideUseCase,
-  RideCompleteUseCase,
-  GetDriverOfflineUseCase
+  // RideCompleteUseCase,
+  GetDriverOfflineUseCase,
+  CompleteRideUseCase
 } from "../usecase/index.js";
-import {
+import { 
   MongoAdminRepository,
   MongoUserRepository,
   MongoDriverRepository,
@@ -36,8 +37,8 @@ const useCase = {
   AcceptRideUseCase,
   RejectRideUseCase,
   StartRideUseCase,
-  RideCompleteUseCase,
-  GetDriverOfflineUseCase
+  GetDriverOfflineUseCase,
+  CompleteRideUseCase
   
 };
 

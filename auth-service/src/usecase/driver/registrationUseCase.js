@@ -15,12 +15,16 @@ export class DriverRegisterUseCase {
     try {
       const { name, email, phone, password } = registerDetails;
       if (name && email && phone && password) {
+        console.log("in the execy");
+        
         //check whether there is existing user from db
         const findUserByEmail = await this.driverRepository.findDriverByEmail(email);
 
         if (!findUserByEmail) {
           //Hash the Password
           const hashedPassword = await hash(password);
+          console.log("passwd hash");
+          
           //create OTP with Math.floor
           const otp = Math.floor(1000 + Math.random() * 9000).toString()
           console.log('Driver--OTP',otp);
@@ -40,6 +44,8 @@ export class DriverRegisterUseCase {
             },
             wallet: 0,
           };
+          console.log("datatoInsert",dataToInsert);
+          
           const createUser = await this.driverRepository.createDriver(
             dataToInsert
           );

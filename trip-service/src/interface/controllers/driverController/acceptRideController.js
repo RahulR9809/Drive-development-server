@@ -7,8 +7,10 @@ this.acceptRideUseCase  = new dependencies.useCase.AcceptRideUseCase(dependencie
             console.log('reqbody in Accept',req.body);
             
             const {tripId,driverId,status} = req.body
-          const acceptRide =   await this.acceptRideUseCase.execute(tripId,driverId,status)
+          const acceptRide =  await this.acceptRideUseCase.execute(tripId,driverId,status)
           req.session.otp = acceptRide?.otp
+          console.log('otp inside the session',req.session);
+          
           res.status(201).json({acceptRide:acceptRide?.acceptRequest})
             
         } catch (error) {
