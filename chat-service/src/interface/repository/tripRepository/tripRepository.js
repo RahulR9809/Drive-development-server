@@ -8,10 +8,10 @@ export class TripRepository {
     return await tripModel.findById({ _id: id }).populate('userId')
   }
   async findTripByIdAndUpdate(id, data) {
-    console.log('inside repo',id,data);
+    // console.log('inside repo',id,data);
     
     const upadateddata =  await tripModel.findByIdAndUpdate({ _id: id }, { $set: data },{new:true}).populate('driverId')
-    console.log("dataaaaaaaaaaaaaa",upadateddata);
+    // console.log("dataaaaaaaaaaaaaa",upadateddata);
     
     return upadateddata
   }

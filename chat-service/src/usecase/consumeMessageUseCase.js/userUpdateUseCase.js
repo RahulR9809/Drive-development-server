@@ -4,8 +4,8 @@ export class UserUpdateUseCase{
     }
     async execute(id,data){
         try {
-            console.log('user Updated UseCase');
-            console.log('userid',id,data);
+            // console.log('user Updated UseCase');
+            // console.log('userid',id,data);
        const result =   await  this.userRepository.findByIdUpdate(id,data)
         } catch (error) {
             console.log(error);

@@ -6,7 +6,7 @@ export class UserCreatedConsumeController{
     }
     async createUser(data){
         try {
-            console.log('cretaeUsesr');
+            // console.log('cretaeUsesr');
            await this.userUseCase.execute(data)
         } catch (error) {
             console.error(error);

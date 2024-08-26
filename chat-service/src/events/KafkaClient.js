@@ -39,9 +39,6 @@ export class KafkaClient {
         await this.consumer.subscribe({ topics: topics, fromBeginning: true })
         await this.consumer.run({
             eachMessage: async ({ topic, partition, message }) => {
-              console.log('topic',topic)
-              console.log('partition',partition);
-              console.log('message',message);
               const data = JSON.parse(message?.value?.toString())
               console.log(data);
               await this.manager.consumer(data)

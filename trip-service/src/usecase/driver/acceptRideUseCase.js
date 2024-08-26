@@ -70,8 +70,10 @@ export class AcceptRideUseCase {
             vehicleDetails:{
                 vehicleType:acceptRequest?.driverId?.vehicleDetails?.vehicle_type,
                 rc_No:acceptRequest?.driverId?.vehicleDetails?.rc_Number
-            }
+            },
         },
+        driverId:acceptRequest?.driverId?._id,
+        userId:acceptRequest?.userId,
         tripStatus:acceptRequest?.tripStatus,
         fare:acceptRequest?.fare,
         startLocation:acceptRequest?.startLocation,
@@ -81,7 +83,9 @@ export class AcceptRideUseCase {
         distance:acceptRequest?.distance,
         duration:acceptRequest?.duration,
         pickUpLocation:acceptRequest?.pickUpLocation,
-        dropOffLocation:acceptRequest?.dropOffLocation
+        dropOffLocation:acceptRequest?.dropOffLocation,
+        _id:acceptRequest?._id
+
       }
 
     //   userNotify("rideAccepted", acceptRequest, acceptRequest.userId);

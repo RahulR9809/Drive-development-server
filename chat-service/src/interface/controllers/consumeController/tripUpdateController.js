@@ -6,7 +6,7 @@ export class TripUpdateConsumerController{
   }
   async updateTrip(data){
       try {
-          console.log('cretaeUsesr');
+        //   console.log('cretaeUsesr');
           const {_id,...rest} = data
          await this.tripCreateUseCase.execute(_id,rest)
       } catch (error) {
