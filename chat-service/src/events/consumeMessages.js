@@ -19,9 +19,9 @@ export class consumeManager{
     }
     async consumer({type,value}){
         try {
-            console.log('entry');
+            // console.log('entry');
             const data = JSON.parse(value)
-            console.log('value',data);
+            // console.log('value',data);
             
             switch(type){
                 case 'USER_CREATED' : 

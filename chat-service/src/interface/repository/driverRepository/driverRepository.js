@@ -34,7 +34,7 @@ export class DriverRepository {
     }
   }
   async findDriverByIdAndUpdate(id, detailsToUpdate) {
-    console.log("id",id,detailsToUpdate);
+    // console.log("id",id,detailsToUpdate);
     
     return await driverModel
       .findByIdAndUpdate({ _id: id }, { $set: detailsToUpdate }, { new: true })

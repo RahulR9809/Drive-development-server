@@ -5,7 +5,7 @@ export class TripCreateUseCase {
   
     async execute(data) {
       try {
-          console.log('data',data); 
+          // console.log('data',data); 
         await this.tripRepository.createTrip(data);
       } catch (error) {
         console.error(error);

@@ -5,7 +5,7 @@ export class UserCreatedConsumerUseCase {
 
   async execute(data) {
     try {
-        console.log('data',data); 
+        // console.log('data',data); 
       await this.userRepository.createUser(data);
     } catch (error) {
       console.error(error);
