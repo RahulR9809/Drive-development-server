@@ -4,6 +4,7 @@ import cors from 'cors'
 import { authRouter } from "../interfaces/routes/user/userRouter.js";
 import { tripRouter } from "../interfaces/routes/user/tripRouter.js";
 import { chatRouter } from "../interfaces/routes/user/chatRouter.js";
+import { paymentRouter } from "../interfaces/routes/user/paymentRouter.js";
 
 configDotenv();
 
@@ -16,6 +17,7 @@ export const createServer = () => {
   app.use("/api/auth",authRouter)
   app.use('/api/trip',tripRouter)
   app.use('/api/chat',chatRouter)
+  app.use('/api/payment',paymentRouter)
 
   return app;
 };
