@@ -69,11 +69,10 @@ const tripSchema = new mongoose.Schema({
     dropOffLocation:{
       type:String
     },
-
-    // paymentId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'Payment',
-    // },
+    isPaid:{
+      type:Boolean,
+      default:false
+    },
     createdAt: {
       type: Date,
       default: Date.now,

@@ -4,14 +4,16 @@ import {
   DriverCreatedConsumerUseCase,
   DriverUpdateConsumerUseCase,
   TripCreateUseCase,
-  TripUpdateUseCase
+  TripUpdateUseCase,
+  StripePaymentUseCase
 
 } from "../usecase/index.js";
 import { 
   MongoAdminRepository,
   MongoUserRepository,
   MongoDriverRepository,
-  MongoTripRepository
+  MongoTripRepository,
+  MongoPaymentRepository
 } from "../interface/repository/index.js";
 
 const useCase = {
@@ -20,14 +22,16 @@ const useCase = {
   DriverCreatedConsumerUseCase,
   DriverUpdateConsumerUseCase,
   TripCreateUseCase,
-  TripUpdateUseCase  
+  TripUpdateUseCase  ,
+  StripePaymentUseCase
 };
 
 const repository = {
   MongoAdminRepository,
   MongoDriverRepository,
   MongoUserRepository,
-  MongoTripRepository
+  MongoTripRepository,
+  MongoPaymentRepository
 };
 
 export const dependencies = {
