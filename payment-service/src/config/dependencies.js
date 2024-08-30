@@ -5,7 +5,10 @@ import {
   DriverUpdateConsumerUseCase,
   TripCreateUseCase,
   TripUpdateUseCase,
-  StripePaymentUseCase
+  StripePaymentUseCase,
+  CashOnDeliveryUseCase,
+  GetTripDetailsUseCase,
+  GetTripDetailByIdUseCase
 
 } from "../usecase/index.js";
 import { 
@@ -23,7 +26,10 @@ const useCase = {
   DriverUpdateConsumerUseCase,
   TripCreateUseCase,
   TripUpdateUseCase  ,
-  StripePaymentUseCase
+  StripePaymentUseCase,
+  CashOnDeliveryUseCase,
+  GetTripDetailsUseCase,
+  GetTripDetailByIdUseCase
 };
 
 const repository = {

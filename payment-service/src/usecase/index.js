@@ -5,6 +5,10 @@ import { DriverUpdateConsumerUseCase } from "./consumeMessageUseCase.js/driverUp
 import {TripCreateUseCase} from './consumeMessageUseCase.js/tripCreateUseCase.js' 
 import { TripUpdateUseCase } from "./consumeMessageUseCase.js/tripUpdateUseCase.js";
 import { StripePaymentUseCase } from "./paymentUseCase/stripePaymentUseCase.js";
+import {CashOnDeliveryUseCase} from './paymentUseCase/cashOnDeliveryUseCase.js'
+import { GetTripDetailsUseCase } from "./tripUseCase/getTripDetailsUseCase.js";
+import { GetTripDetailByIdUseCase } from "./tripUseCase/getTripDetailByIdUseCase.js";
+
 
 
 export {
@@ -14,5 +18,8 @@ export {
     DriverUpdateConsumerUseCase,
     TripCreateUseCase,
     TripUpdateUseCase,
-    StripePaymentUseCase
+    StripePaymentUseCase,
+    CashOnDeliveryUseCase,
+    GetTripDetailsUseCase,
+    GetTripDetailByIdUseCase
 }

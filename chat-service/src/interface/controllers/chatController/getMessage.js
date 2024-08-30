@@ -4,8 +4,8 @@ export class GetMessageController{
     }
     async getMessage(req,res,next){
         try {
-            
-          const messages =   await this.getMessageUseCase.execute(req.params.id)
+            const {userId} = req.params
+          const messages =   await this.getMessageUseCase.execute(userId)
           res.status(201).json({messages})
         } catch (error) {
             console.error(error)

@@ -105,7 +105,7 @@ export class RideRequestUseCase {
   //   }
   // }
   try {
-    // Destructure and validate input data
+   
     const { userId, fare, distance, duration, pickUpCoords, dropCoords, vehicleType,pickupLocation,dropLocation } = data;
     console.log('dropLocation',dropLocation);
     
@@ -113,14 +113,14 @@ export class RideRequestUseCase {
       throw new Error('Bad Request: Provide necessary details for the request');
     }
 
-    // Parse coordinates
+    
     const [pickupLongitude, pickupLatitude] = pickUpCoords.map(coord => parseFloat(coord));
     const [dropOffLongitude, dropOffLatitude] = dropCoords.map(coord => parseFloat(coord));
 
-    // Generate a unique ID for the trip
+    
     const tripId = generateRandomUniqueId();
 
-    // Prepare data for insertion
+    
     const dataToInsert = {
       tripId,
       userId,
@@ -139,8 +139,10 @@ export class RideRequestUseCase {
       dropOffLocation:dropLocation,
     };
 
-    // Create the trip in the repository
+  
     const createTrip = await this.tripRepository.createTrip(dataToInsert);
+    console.log("createtrips",createTrip);
+    
 
     const dataToPublish ={
       _id:createTrip?._id,
@@ -156,7 +158,7 @@ export class RideRequestUseCase {
       endTime:createTrip?.endTime,
       distance:createTrip?.distance,
       duration:createTrip?.duration,
-      pickupLocation:createTrip?.pickupLocation,
+      pickUpLocation:createTrip?.pickUpLocation,
       dropOffLocation:createTrip?.dropOffLocation,
       createdAt:createTrip?.createdAt
     }
@@ -166,17 +168,17 @@ export class RideRequestUseCase {
       value:JSON.stringify(dataToPublish)
     })
 
-    // Find nearest drivers based on vehicle type
+   
     const nearestDrivers = await this.driverRepository.rideRequestToSelectedVehicle(
       pickUpCoords, 
       vehicleType
     );
 
-    // Enqueue drivers for request processing
+    
     nearestDrivers.forEach(driver => this.requestQueue.enqueue(driver._id));
     console.log("Queue:", this.requestQueue.print());
 
-    // Function to handle the request queue
+   
     const handleRequest = async () => { 
       if (this.requestQueue.isEmpty()) {
         console.log("Request queue is empty");
@@ -186,10 +188,10 @@ export class RideRequestUseCase {
       const driverId = this.requestQueue.dequeue();
       console.log("Notifying driver:", driverId);
 
-      // Notify the driver of the ride request
+     
       notifyDriver("ride-request", createTrip, driverId);
 
-      // Function to handle driver response
+     
       const handleDriverResponse = async () => {
         try {
           const trip = await this.tripRepository.findTrip(createTrip._id);
@@ -201,18 +203,18 @@ export class RideRequestUseCase {
 
           if (["rejected", "pending"].includes(requestStatus)) {
             console.log("Driver rejected or did not respond, retrying...");
-            handleRequest(); // Retry mechanism
+            handleRequest(); 
           }
         } catch (error) {
           console.error("Error handling driver response:", error);
         }
       };
 
-      // Wait for the driver to respond before proceeding
+    
       setTimeout(handleDriverResponse, 15000);
     };
 
-    // Start processing the request queue
+    
     handleRequest();
 
   } catch (error) {

@@ -17,8 +17,8 @@ export class StripePaymentUseCase{
        const createStripeSession = await stripe.checkout.sessions.create({
         payment_method_types:['card'],
         mode:'payment',
-        success_url:"http://localhost:3000/checkout-success",
-        cancel_url:"http://localhost:3000/checkout-success",
+        success_url:"http://localhost:3000/payment-success",
+        cancel_url:"http://localhost:3000/payment-failure",
         customer_email:userDetails?.email,
         client_reference_id:tripId,
         line_items:[{

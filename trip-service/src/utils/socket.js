@@ -11,32 +11,28 @@ export const socketConnection = async (httpServer) => {
       },
     });
     io.on("connection", (socket) => {
+      console.log('connected to the soccket server successFully');
       socket.on("driver-connected", (driverId) => {
         driverAndSocketId.set(driverId, socket.id);
       });
       socket.on("user-connected", (userId) => {
-       
+        console.log("user-connected success to trip-srv");
         userAndSocketId.set(userId, socket.id);
+        
       });
-
       socket.on("location-update", (data) => {
-
         const userIdToString = data?.userId.toString();
-          socket.to(userAndSocketId.get(userIdToString)).emit("live-location", data);
-          // io.to(userAndSocketId.get(userIdToString)).emit("dummy-event", data);
+        socket.to(userAndSocketId.get(userIdToString)).emit("live-location", data);
       });
-      socket.on('driver-NearBy-pickup',(data)=>{
-        const userId = data?.userId
-        socket.to(userAndSocketId.get(userId)).emit('driver-NearBy-pickup',data)
-      })
+
         socket.on('ride-started',(data)=>{
         const userId = data?.userId
         socket.to(userAndSocketId.get(userId)).emit('ride-start',data)
       })
-      socket.on('nearby-dropoff',(data)=>{
-        const userId = data?.userId
-        socket.to(userAndSocketId.get(userId)).emit('nearby-dropoff',data)
-      })
+      // socket.on('nearby-dropoff',(data)=>{
+      //   const userId = data?.userId
+      //   socket.to(userAndSocketId.get(userId)).emit('nearby-dropoff',data)
+      // })
 
       socket.on('ride-complete',(data)=>{
         const userId = data?.userId

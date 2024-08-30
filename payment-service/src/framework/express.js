@@ -12,6 +12,7 @@ const createServer = () => {
   app.use(cookieParser())
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
+  app.use('/payment/user/',paymentRouter)
   app.use('/payment',paymentRouter)
 
   return app
