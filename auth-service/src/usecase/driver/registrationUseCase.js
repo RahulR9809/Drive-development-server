@@ -15,20 +15,16 @@ export class DriverRegisterUseCase {
     try {
       const { name, email, phone, password } = registerDetails;
       if (name && email && phone && password) {
-        console.log("in the execy");
-        
-        //check whether there is existing user from db
+
         const findUserByEmail = await this.driverRepository.findDriverByEmail(email);
 
-        if (!findUserByEmail) {
-          //Hash the Password
+        const findUserByPhone = await this.driverRepository.findDriverByPhone(phone)
+
+        if (!findUserByEmail && !findUserByPhone) {
+        
           const hashedPassword = await hash(password);
-          console.log("passwd hash");
-          
-          //create OTP with Math.floor
           const otp = Math.floor(1000 + Math.random() * 9000).toString()
           console.log('Driver--OTP',otp);
-          //SendMail to the Driver
           await sendMail(otp, email);
           const dataToInsert = {
             name,
@@ -44,11 +40,7 @@ export class DriverRegisterUseCase {
             },
             wallet: 0,
           };
-          console.log("datatoInsert",dataToInsert);
-          
-          const createUser = await this.driverRepository.createDriver(
-            dataToInsert
-          );
+          const createUser = await this.driverRepository.createDriver(dataToInsert);
           const dataToPublish = {
             _id:createUser._id,
             name:createUser.name,
@@ -77,10 +69,12 @@ export class DriverRegisterUseCase {
             userId: createUser._id,
             otp
           };
-        } else {
+        }
+        
+        else {
           const error = new Error();
-          error.status = 409; //conflict driver Already exist
-          error.message = "Driver with Same Email Already Exist";
+          error.status = 409; 
+          error.message = "Driver credentials  Already Exist";
           throw error;
         }
       } else {

@@ -26,4 +26,4 @@ const createServer = () => {
   return app;
 };
 
-export { createServer };
+export default createServer ;
