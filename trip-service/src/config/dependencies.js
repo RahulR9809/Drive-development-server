@@ -14,7 +14,8 @@ import {
   StartRideUseCase,
   // RideCompleteUseCase,
   GetDriverOfflineUseCase,
-  CompleteRideUseCase
+  CompleteRideUseCase,
+  ReverseGeoCodeUseCase
 } from "../usecase/index.js";
 import { 
   MongoAdminRepository,
@@ -38,7 +39,8 @@ const useCase = {
   RejectRideUseCase,
   StartRideUseCase,
   GetDriverOfflineUseCase,
-  CompleteRideUseCase
+  CompleteRideUseCase,
+  ReverseGeoCodeUseCase
   
 };
 

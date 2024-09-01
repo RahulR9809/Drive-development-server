@@ -1,8 +1,6 @@
 export class RideRequestController {
   constructor(dependencies) {
-    this.requestRideUseCase = new dependencies.useCase.RideRequestUseCase(
-      dependencies
-    );
+    this.requestRideUseCase = new dependencies.useCase.RideRequestUseCase(dependencies);
   }
   async requestRide(req, res, next) {
     try {

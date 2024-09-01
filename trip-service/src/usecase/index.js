@@ -8,6 +8,7 @@ import { GetDriverOnlineUseCase } from "./driver/getOnlineUseCase.js";
 import { GetNearByDriverUseCase } from "./user/getNearByDriverUseCase.js";
 import {RideRequestUseCase} from './user/requestRideUseCase.js'
 import { GetAdditionalTripDataUseCase } from "./user/getAdditionalTripData.js";
+import { ReverseGeoCodeUseCase } from "./user/reverseGeocodeUseCase.js";
 
 
 import { AcceptRideUseCase } from "./driver/acceptRideUseCase.js";
@@ -33,6 +34,7 @@ export {
     AcceptRideUseCase,
     RejectRideUseCase,
     StartRideUseCase,
+    ReverseGeoCodeUseCase,
     // RideCompleteUseCase,
     CompleteRideUseCase
 }
