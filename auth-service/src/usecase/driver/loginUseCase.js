@@ -10,7 +10,6 @@ export class DriverLoginUseCase {
       const { email, password } = loginData;
       console.log('njn pinnem ethi');
       console.log(email, password);
-      ;
       console.log(this.driverRepository.findDriverByEmail);
       const existingUser = await this.driverRepository.findDriverByEmail(email);
       console.log(existingUser);

@@ -8,15 +8,23 @@ import {
   StripePaymentUseCase,
   CashOnDeliveryUseCase,
   GetTripDetailsUseCase,
-  GetTripDetailByIdUseCase
-
+  GetTripDetailByIdUseCase,
+  CreatePaymentUseCase,
+  UpdatePaymentUseCase,
+  WalletPaymentUseCase,
+  AddMoneyToWalletUseCase,
+  GetWalletBalanceUseCase,
+  GetWalletHistoryUseCase,
 } from "../usecase/index.js";
 import { 
   MongoAdminRepository,
   MongoUserRepository,
   MongoDriverRepository,
   MongoTripRepository,
-  MongoPaymentRepository
+  MongoPaymentRepository,
+  MongoWalletRepository,
+  MongoCompanyWalletRepository
+
 } from "../interface/repository/index.js";
 
 const useCase = {
@@ -29,7 +37,14 @@ const useCase = {
   StripePaymentUseCase,
   CashOnDeliveryUseCase,
   GetTripDetailsUseCase,
-  GetTripDetailByIdUseCase
+  GetTripDetailByIdUseCase,
+  CreatePaymentUseCase,
+  UpdatePaymentUseCase,
+  WalletPaymentUseCase,
+  AddMoneyToWalletUseCase,
+  GetWalletBalanceUseCase,
+  GetWalletHistoryUseCase,
+
 };
 
 const repository = {
@@ -37,7 +52,10 @@ const repository = {
   MongoDriverRepository,
   MongoUserRepository,
   MongoTripRepository,
-  MongoPaymentRepository
+  MongoPaymentRepository,
+  MongoWalletRepository,
+  MongoCompanyWalletRepository
+
 };
 
 export const dependencies = {

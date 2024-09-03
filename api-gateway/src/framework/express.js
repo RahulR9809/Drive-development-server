@@ -17,7 +17,8 @@ export const createServer = () => {
   app.use("/api/auth",authRouter)
   app.use('/api/trip',tripRouter)
   app.use('/api/chat',chatRouter)
-  app.use('/api/payment',paymentRouter)
+  app.use('/api/payment',(req,res,next)=>{console.log("hi");next()
+  },paymentRouter)
 
   return app;
 };

@@ -36,8 +36,9 @@ const driverSchema = new mongoose.Schema({
     type: String,
   },
   vehicleDetails: vehicleSchema,
-  wallet: {
-    type: Number,
+  walletBalance:{
+    type:Number,
+    default:0
   },
   isBlocked: {
     type: Boolean,

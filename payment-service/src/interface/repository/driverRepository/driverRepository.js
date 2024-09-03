@@ -145,4 +145,7 @@ export class DriverRepository {
       console.error(error);
     }
   }
+  async updateWalletBalance(driverId,updateBalance){
+    return await driverModel.findByIdAndUpdate({_id:driverId},{$inc:updateBalance},{$new:true})
+  }
 }

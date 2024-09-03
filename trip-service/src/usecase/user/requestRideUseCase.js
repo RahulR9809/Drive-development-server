@@ -106,10 +106,10 @@ export class RideRequestUseCase {
   // }
   try {
    
-    const { userId, fare, distance, duration, pickUpCoords, dropCoords, vehicleType,pickupLocation,dropLocation } = data;
+    const { userId, fare, distance, duration, pickUpCoords, dropCoords, vehicleType,pickupLocation,dropLocation,paymentMethod } = data;
     console.log('dropLocation',dropLocation);
     
-    if (!userId || !fare || !distance || !duration || !pickUpCoords || !dropCoords) {
+    if (!userId || !fare || !distance || !duration || !pickUpCoords || !dropCoords || !paymentMethod) {
       throw new Error('Bad Request: Provide necessary details for the request');
     }
 
@@ -137,6 +137,7 @@ export class RideRequestUseCase {
       },
       pickUpLocation:pickupLocation,
       dropOffLocation:dropLocation,
+      paymentMethod
     };
 
   

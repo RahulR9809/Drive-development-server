@@ -22,5 +22,10 @@ export class TripRepository {
     );
   }
 
+  async findTripAndUpdate(id,data){
+    console.log("id and data",id, typeof data,data)
+    return await tripModel.findByIdAndUpdate({_id:id},{$set:data},{new:true})
+  }
+
 
 }

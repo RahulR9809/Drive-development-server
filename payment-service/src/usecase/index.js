@@ -8,6 +8,12 @@ import { StripePaymentUseCase } from "./paymentUseCase/stripePaymentUseCase.js";
 import {CashOnDeliveryUseCase} from './paymentUseCase/cashOnDeliveryUseCase.js'
 import { GetTripDetailsUseCase } from "./tripUseCase/getTripDetailsUseCase.js";
 import { GetTripDetailByIdUseCase } from "./tripUseCase/getTripDetailByIdUseCase.js";
+import { CreatePaymentUseCase } from "./paymentUseCase/createPaymentUseCase.js";
+import { UpdatePaymentUseCase } from "./paymentUseCase/updatePaymentUseCase.js";
+import { WalletPaymentUseCase } from "./paymentUseCase/walletPaymentUseCase.js";
+import { AddMoneyToWalletUseCase } from "./paymentUseCase/addMoneytoWalletUseCase.js";
+import { GetWalletBalanceUseCase } from "./paymentUseCase/getWalletBalanceUseCase.js";
+import { GetWalletHistoryUseCase } from "./paymentUseCase/getWalletHistoryUseCase.js";
 
 
 
@@ -21,5 +27,11 @@ export {
     StripePaymentUseCase,
     CashOnDeliveryUseCase,
     GetTripDetailsUseCase,
-    GetTripDetailByIdUseCase
+    GetTripDetailByIdUseCase,
+    CreatePaymentUseCase,
+    UpdatePaymentUseCase,
+    WalletPaymentUseCase,
+    AddMoneyToWalletUseCase,
+    GetWalletBalanceUseCase,
+    GetWalletHistoryUseCase
 }

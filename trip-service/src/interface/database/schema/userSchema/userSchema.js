@@ -61,7 +61,10 @@ const userSchema = new mongoose.Schema({
   savedLocation : {
     type:[savedLocationSchema]
   },
-  
+  walletBalance:{
+    type:Number,
+    default:0
+  },
   createdAt: {
     type: Date,
     default: Date.now,

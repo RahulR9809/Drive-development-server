@@ -69,20 +69,22 @@ const tripSchema = new mongoose.Schema({
     dropOffLocation:{
       type:String
     },
-
-    // paymentId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'Payment',
-    // },
-    createdAt: {
-      type: Date,
-      default: Date.now,
+    isPaymentComplete:{
+      type:Boolean,
+      default:false
     },
+    paymentMethod:{
+      type:String,
+      enum:['Cash','Wallet','Online-Payment'],
+      default:'Online-Payment'
+    }
 
+  },{
+    timestamps:true
   });
   
-  tripSchema.index({ startLocation: '2dsphere' });
-  tripSchema.index({ endLocation: '2dsphere' });
+  tripSchema.index({ startLocation: '2dsphere'});
+  tripSchema.index({ endLocation: '2dsphere'});
   
 export const tripModel = mongoose.model('Trip', tripSchema);
   

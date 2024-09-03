@@ -84,6 +84,7 @@ export class AcceptRideUseCase {
         duration:acceptRequest?.duration,
         pickUpLocation:acceptRequest?.pickUpLocation,
         dropOffLocation:acceptRequest?.dropOffLocation,
+        paymentMethod:acceptRequest?.paymentMethod,
         _id:acceptRequest?._id
 
       }

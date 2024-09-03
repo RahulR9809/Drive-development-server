@@ -4,10 +4,13 @@ export class StripePaymentUseCase{
         this.paymentRepository = new dependencies.repository.MongoPaymentRepository()
         this.userRepository = new dependencies.repository.MongoUserRepository()
         this.tripRepository = new dependencies.repository.MongoTripRepository()
+        this.driverRepository =  new dependencies.repository.MongoDriverRepository()
+        this.walletRepository = new dependencies.repository.MongoWalletRepository()
+        this.comapnyWalletRepository =  new dependencies.repository.MongoCompanyWalletRepository()
     }
     async execute(data){
         try {
-            const {userId,tripId,paymentMethod,fare} = data
+            const {userId,tripId,paymentMethod,fare,driverId} = data
 
             const userDetails = await this.userRepository.findUserById(userId)
 
@@ -31,17 +34,37 @@ export class StripePaymentUseCase{
             },
             quantity:1
         }],
-        // metadata: {
-        //     trip_id: tripId,
-        //     user_id: userDetails?._id,
-        //     pickup_location: tripDetails?.pickUpLocation,
-        //     dropoff_location: tripDetails?.dropOffLocation,
-        //     // distance: tripDetails?.distance,
-        //     // date: tripDetails?.date,
-        // }
+       })
+       const driversCommision = parseFloat(fare) * 80/100
+       const companyCommision = parseFloat(fare) * 20/100
+       console.log("commisiosssssssss",driversCommision,companyCommision);
+       
+       const driverWalletHistory = await this.walletRepository.createWallet({
+        driverId:driverId,
+        tripId:tripId,
+        amount:driversCommision,
+        description:"Money recieveed from trip",
+        type:"credit"
        })
 
-       const payment = await this.paymentRepository.createPayment(data)
+       console.log("driverWalletHistory",driverWalletHistory);
+       
+       const addDriversBalance = await this.driverRepository.updateWalletBalance(driverId,{walletBalance:driversCommision})
+       console.log("addDriversBalance",addDriversBalance);
+       
+       const companyWalletHistory = await this.comapnyWalletRepository.findCompanyWalletUpdate({balance:companyCommision},{
+        transactions:{
+            tripId:tripId,
+            transactionType:'credit',
+            description:"money added to wallet"
+        }})
+       console.log("companyWalletHistory",companyWalletHistory);
+       const payment = await this.paymentRepository.findPaymentByTrip_Update(tripId,{
+        fare,
+        paymentStatus:'paid'
+       })
+       console.log("payment",payment);
+       
        return {
         createStripeSession,
         payment

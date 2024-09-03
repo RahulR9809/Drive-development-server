@@ -5,6 +5,8 @@ import { DriverCreatedConsumeController } from "../interface/controllers/consume
 import { DriverUpdatedConsumeController } from "../interface/controllers/consumeController/driveUpdatedController.js"
 import {TripCreateConsumerController} from '../interface/controllers/consumeController/tripCreatedController.js'
 import { TripUpdateConsumerController } from "../interface/controllers/consumeController/tripUpdateController.js"
+import { CreatePaymentController } from "../interface/controllers/paymentController/createPaymentController.js"
+import { UpdatePaymentModecontroller } from "../interface/controllers/paymentController/updatePaymentController.js"
 
 
 export class consumeManager{
@@ -15,6 +17,8 @@ export class consumeManager{
         this.consumeDriverUpdatedController = new DriverUpdatedConsumeController(dependencies)
         this.consumeTripCreateController = new TripCreateConsumerController(dependencies)
         this.consumeTripUpdateController = new TripUpdateConsumerController(dependencies)
+        this.createPaymentController = new CreatePaymentController(dependencies)
+        this.updatePaymentModecontroller = new UpdatePaymentModecontroller(dependencies)
 
     }
     async consumer({type,value}){
@@ -37,11 +41,22 @@ export class consumeManager{
                         await this.consumeDriverUpdatedController.driverUpdatedConsumer(data)
                         break
                 case 'TRIP_CREATED':
-                         await this.consumeTripCreateController.createTrip(data)
+                       const tripCreated =   await this.consumeTripCreateController.createTrip(data)
+                       await this.createPaymentController.createPayment({
+                        tripId:tripCreated._id,
+                        userId:tripCreated?.userId,
+                        paymentMethod:tripCreated?.paymentMethod
+                       })     
                           break   
                 case 'TRIP_UPDATED':
-                         await this.consumeTripUpdateController.updateTrip(data)
+                       await this.consumeTripUpdateController.updateTrip(data)
                          break        
+                case 'PAYMENT_MODE_UPDATED':
+                 const tripUpated = await this.consumeTripUpdateController.updateTrip(data)
+                 
+            
+                 break
+                                      
                 default:
                     const error = new Error('No Type mentioned')
             }
