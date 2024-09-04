@@ -14,9 +14,11 @@ export const socketConnection = async (httpServer) => {
       console.log('connected to the soccket server successFully');
       socket.on("driver-connected", (driverId) => {
         driverAndSocketId.set(driverId, socket.id);
+        console.log("driver-socket-connected",driverId,socket.id);
+        
       });
       socket.on("user-connected", (userId) => {
-        console.log("user-connected success to trip-srv");
+        console.log("user-connected success to trip-srv",userId, socket.id);
         userAndSocketId.set(userId, socket.id);
         
       });

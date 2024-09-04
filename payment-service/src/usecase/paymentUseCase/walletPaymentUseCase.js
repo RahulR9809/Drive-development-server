@@ -1,55 +1,50 @@
-export class WalletPaymentUseCase{
-    constructor(dependencies){
-        this.paymentRepository = new dependencies.repository.MongoPaymentRepository()
-        this.userRepository = new dependencies.repository.MongoUserRepository()
-        this.tripRepository = new dependencies.repository.MongoTripRepository()
-        this.driverRepository =  new dependencies.repository.MongoDriverRepository()
-        this.walletRepository = new dependencies.repository.MongoWalletRepository()
-        this.comapnyWalletRepository =  new dependencies.repository.MongoCompanyWalletRepository()
-    }
-    async execute(data){
-        try {
+import { WalletRecordUpates } from "../../helpers/walletRecordUpdate.js";
+export class WalletPaymentUseCase {
+  constructor(dependencies) {
+    this.paymentRepository =
+      new dependencies.repository.MongoPaymentRepository();
+    this.walletUpdates = new WalletRecordUpates();
 
-            const {userId,tripId,driverId,paymentMethod,fare} = data
-            const driversCommision = parseFloat(fare) * 80/100
-            const companyCommision = parseFloat(fare) * 20/100
-            console.log("commisiosssssssss",driversCommision,companyCommision);
-            const parsedFare = parseInt(fare)
-            const deductWalletBalance = await this.userRepository.deductWalletBalance(userId,{walletBalance:-parsedFare})
-            const userWalletHistory = await this.walletRepository.createWallet({
-                userId:userId,
-                tripId:tripId,
-                amount:fare,
-                description:"Money Paid for trip",
-                type:"debit"
-            })
-            const driverWalletHistory = await this.walletRepository.createWallet({
-             driverId:driverId,
-             tripId:tripId,
-             amount:driversCommision,
-             description:"Money recieveed from trip",
-             type:"credit"
-            })
-     
-            console.log("driverWalletHistory",driverWalletHistory);
-            
-            const addDriversBalance = await this.driverRepository.updateWalletBalance(driverId,{walletBalance:driversCommision})
-            console.log("addDriversBalance",addDriversBalance);
-            
-            const companyWalletHistory = await this.comapnyWalletRepository.findCompanyWalletUpdate({balance:companyCommision},{
-             transactions:{
-                 tripId:tripId,
-                 transactionType:'credit',
-                 description:"money added to wallet"
-             }})
-            console.log("companyWalletHistory",companyWalletHistory);
-            const payment = await this.paymentRepository.findPaymentByTrip_Update(tripId,{
-             fare,
-             paymentStatus:'paid'
-            })
-            console.log("payment",payment);
-        } catch (error) {
-            console.error(error)
+        this.userRepository = new dependencies.repository.MongoUserRepository()
+    //     this.tripRepository = new dependencies.repository.MongoTripRepository()
+    //     this.driverRepository =  new dependencies.repository.MongoDriverRepository()
+    //     this.walletRepository = new dependencies.repository.MongoWalletRepository()
+    //     this.comapnyWalletRepository =  new dependencies.repository.MongoCompanyWalletRepository()
+  }
+  async execute(data) {
+    try {
+      const { userId, tripId, driverId, paymentMethod, fare } = data;
+      const userDetails = await this.userRepository.findUserById(userId)
+      const {walletBalance}  = userDetails
+      if(walletBalance<fare){
+        const error = new Error()
+        error.message('No Sufficient Balance in Wallet')
+        error.status = 400
+        throw error
+      }
+      const payment = await this.paymentRepository.findPaymentByTrip_Update(
+        tripId,
+        {
+          fare,
+          paymentStatus: "paid",
         }
+      );
+      // console.log("payment",payment);
+      const {
+        driverWalletHistory,
+        driverBalanceUpdate,
+        companyWalletUpdate,
+        deductUserWalletBalance,
+        userWalletHistory,
+      } = await this.walletUpdates.UpdateWallets(fare, driverId, tripId, paymentMethod, userId);
+      console.log("logger 2");
+      
+      return {
+
+      }
+    } catch (error) {
+      console.error(error);
+      throw error
     }
+  }
 }

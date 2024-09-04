@@ -18,6 +18,7 @@ import { StartRideUseCase } from "./driver/startRideUseCase.js";
 // import { RideCompleteUseCase } from "./driver/rideCompleteUseCase.js";
 import { GetDriverOfflineUseCase } from "./driver/getDriverOfflineUseCase.js";
 import { CompleteRideUseCase } from "./driver/completeRideUseCase.js";
+import { EmergencyAlertUseCase } from "./user/sendEmergencyAlertUseCase.js";
 
 
 export {
@@ -38,5 +39,6 @@ export {
     ReverseGeoCodeUseCase,
     // RideCompleteUseCase,
     CompleteRideUseCase,
-    ChangePaymentUseCase
+    ChangePaymentUseCase,
+    EmergencyAlertUseCase
 }

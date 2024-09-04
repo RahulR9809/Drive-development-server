@@ -17,6 +17,25 @@ const savedLocationSchema = new mongoose.Schema({
   }
 })
 
+const savedContactSchema = new mongoose.Schema({
+  name:{
+    type:String
+  },
+  email:{
+    type:String
+  },
+  phoneNumber:{
+    type:Number
+  },
+  relationship:{
+    type:String
+  },
+  isBlocked:{
+    type:Boolean,
+    default:false
+  }
+})
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -65,6 +84,10 @@ const userSchema = new mongoose.Schema({
   walletBalance:{
     type:Number,
     default:0
+  },
+  savedContacts:{
+    type:[savedContactSchema],
+    default:[]
   },
   
   createdAt: {

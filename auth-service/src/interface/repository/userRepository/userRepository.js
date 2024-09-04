@@ -38,4 +38,8 @@ try {
       
     }
   }
+async getUserAndSaveContacts(id,data){
+return await userModel.findByIdAndUpdate({_id:id},{$addToSet:{savedContacts:data}},{new:true})
+}
+
 }

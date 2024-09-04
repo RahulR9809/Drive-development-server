@@ -16,7 +16,8 @@ import {
   GetDriverOfflineUseCase,
   CompleteRideUseCase,
   ReverseGeoCodeUseCase,
-  ChangePaymentUseCase
+  ChangePaymentUseCase,
+  EmergencyAlertUseCase
 } from "../usecase/index.js";
 import { 
   MongoAdminRepository,
@@ -42,7 +43,8 @@ const useCase = {
   GetDriverOfflineUseCase,
   CompleteRideUseCase,
   ReverseGeoCodeUseCase,
-  ChangePaymentUseCase
+  ChangePaymentUseCase,
+  EmergencyAlertUseCase
   
 };
 

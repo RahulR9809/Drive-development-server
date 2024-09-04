@@ -19,6 +19,7 @@ import { GetAllUserUseCase } from "./admin/getAllUserUseCase.js";
 import { UpdateUserDataUseCase } from "./user/updateUserDataUseCase.js";
 import {DriverRefreshTokenUseCase} from './driver/driverRefreshTokenUseCase.js'
 import {AdminRefreshTokenUseCase} from './admin/adminRefreshTokenUseCase.js'
+import { SaveContactsUseCase } from "./user/saveContactsUseCase.js";
 
 export {
   GoogleAuthUseCase,
@@ -45,7 +46,8 @@ export {
   DriverBlockUnblockUseCase,
   UserBlockUnblockUseCase,
   GetAllUserUseCase,
-  UpdateUserDataUseCase
+  UpdateUserDataUseCase,
+  SaveContactsUseCase
 }
 
 

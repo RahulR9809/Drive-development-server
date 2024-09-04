@@ -38,4 +38,15 @@ try {
       
     }
   }
+
+  async getPhoneFromSavedContacts(userId){
+    try { 
+      const data = await userModel.aggregate([{$match:{_id:userId}},{$unwind:"$savedContacts"},{$project:{_id:0,phone:"$savedContacts.phone"}}])
+      console.log("data",data);
+      return data
+    } catch (error) {
+      console.error(error);
+      
+    }
+  }
 }

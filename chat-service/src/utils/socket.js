@@ -11,7 +11,7 @@ export const socketConnection = async (httpServer) => {
       },
     });
     io.on("connection", (socket) => {
-      console.log("connectded to socket");
+      console.log("connectded to chatSocket Server");
       
       socket.on("driver-chat-connect", (data) => {
         const {driverId} = data

@@ -4,7 +4,7 @@ export class TripRepository {
   async createTrip(data) {
     return await tripModel.create(data);
   }
-  async findTrip(id) {
+  async findTripById(id) {
     return await tripModel.findById({ _id: id }).populate('userId').populate('driverId')
   }
   async findTripByIdAndUpdate(id, data) {
@@ -23,6 +23,4 @@ export class TripRepository {
   async findAllTrips(userID){
     return await tripModel.find({userId:userID}).populate('driverId').populate('userId')
   }
-
-
 }

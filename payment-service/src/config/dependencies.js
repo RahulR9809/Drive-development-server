@@ -15,6 +15,9 @@ import {
   AddMoneyToWalletUseCase,
   GetWalletBalanceUseCase,
   GetWalletHistoryUseCase,
+  GetDriverWalletDetailsUseCase
+  // GetDriverWalletBalanceUseCase,
+  // GetDriverWalletHistoryUseCase
 } from "../usecase/index.js";
 import { 
   MongoAdminRepository,
@@ -44,7 +47,9 @@ const useCase = {
   AddMoneyToWalletUseCase,
   GetWalletBalanceUseCase,
   GetWalletHistoryUseCase,
-
+  GetDriverWalletDetailsUseCase
+  // GetDriverWalletBalanceUseCase,
+  // GetDriverWalletHistoryUseCase
 };
 
 const repository = {

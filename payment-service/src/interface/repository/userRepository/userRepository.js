@@ -43,7 +43,6 @@ try {
   }
   async deductWalletBalance(userId,data){
     console.log("inDedductddbbdbdbdb",userId,data);
-    
     return await userModel.findByIdAndUpdate({_id:userId},{$inc:data},{$new:true})
   }
 }

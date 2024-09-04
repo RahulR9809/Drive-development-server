@@ -7,4 +7,7 @@ export class WalletRepository{
     async getAllWalletsByUserId(id){
         return await walletModel.find({userId:id})
     }
+    async getAllWalletsByDriverId(id){
+        return await walletModel.find({driverId:id})
+    }
 }

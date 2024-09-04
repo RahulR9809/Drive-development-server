@@ -19,7 +19,8 @@ import {
   GetAllUserUseCase,
   UpdateUserDataUseCase,
   DriverRefreshTokenUseCase,
-  AdminRefreshTokenUseCase
+  AdminRefreshTokenUseCase,
+  SaveContactsUseCase
 } from "../usecase/index.js";
 import { MongoUserRepository,MongoDriverRepository, MongoAdminRepository } from "../interface/repository/index.js";
 
@@ -46,7 +47,8 @@ const useCase = {
   DriverBlockUnblockUseCase,
   UserBlockUnblockUseCase,
   GetAllUserUseCase,
-  UpdateUserDataUseCase
+  UpdateUserDataUseCase,
+  SaveContactsUseCase
 };
 
 const repository = {
