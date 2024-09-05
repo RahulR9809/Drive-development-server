@@ -3,8 +3,8 @@ import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import userRouter from "../interface/routes/user/userRoute.js";
 import driverRouter from '../interface/routes/driver/driverRoute.js'
-import { ErrorHandling } from "../interface/middleware/errorHandlingMiddleware.js";
 import adminRouter from "../interface/routes/admin/adminRoute.js";
+import { ErrorHandling } from "../interface/middleware/errorHandlingMiddleware.js";
 
 const createServer = () => {
   const app = express();

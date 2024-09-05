@@ -28,6 +28,6 @@ export class VerifyOtpController {
     } catch (error) {
       console.error(error);
       next(error);
-    }
+    } 
   }
 }

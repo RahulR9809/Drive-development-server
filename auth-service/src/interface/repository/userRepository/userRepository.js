@@ -19,7 +19,7 @@ export class UserRepository {
 try {
   console.log('f',filter,page,limit);
   
- const result =  await userModel.find(filter, { password: 0 }).skip(page-1).limit(limit);
+ const result =  await userModel.find(filter, { password: 0 })
  console.log(result);
  
  return result

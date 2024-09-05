@@ -40,11 +40,14 @@ export class AuthHandler {
         throw error;
       }
       const isUservalid = await userRepository.findUserById(decodeToken.id);
+      console.log('isUserValid',isUservalid);
+      
 
       if (!isUservalid || isUservalid.isBlocked) {
         const error = new Error();
         error.status = 403;
-        error.status = "Not Authorized";
+        error.message = "Your Account has been Blocked temporarily";
+        throw error
       }
 
       next();
@@ -89,7 +92,8 @@ export class AuthHandler {
       if (!isDrivervalid || isDrivervalid.isBlocked) {
         const error = new Error();
         error.status = 403;
-        error.status = "Not Authorized";
+        error.message = "Your Account has been Blocked temporarily";
+        throw error
       }
 
       next();
@@ -131,11 +135,12 @@ export class AuthHandler {
       }
       const isAdminvalid = await adminRepository.findAdminById(decodeToken.id);
 
-      if (!isAdminvalid || isAdminvalid.isBlocked) {
-        const error = new Error();
-        error.status = 403;
-        error.status = "Not Authorized";
-      }
+      // if (!isAdminvalid || isAdminvalid.isBlocked) {
+      //   const error = new Error();
+      //   error.status = 403;
+      //   error.status = "Not Authorized";
+      //   throw error
+      // }
 
       next();
     } catch (error) {

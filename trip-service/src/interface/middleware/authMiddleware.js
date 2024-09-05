@@ -44,7 +44,8 @@ export class AuthHandler {
       if (!isUservalid || isUservalid.isBlocked) {
         const error = new Error();
         error.status = 403;
-        error.status = "Not Authorized";
+        error.message = "Your Account has been Blocked temporarily";
+        throw error
       }
 
       next();
@@ -96,9 +97,10 @@ console.log(isDrivervalid);
       if (!isDrivervalid || isDrivervalid.isBlocked) {
         const error = new Error();
         error.status = 403;
-        error.status = "Not Authorized";
+        error.message = "Your Account has been Blocked temporarily";
+        throw error
       }
-console.log('next reaached');
+
 
       next();
     } catch (error) {

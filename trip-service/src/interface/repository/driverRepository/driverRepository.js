@@ -10,39 +10,21 @@ export class DriverRepository {
     }
   }
   async findDriverbyId(id) {
-    try {
-      return await driverModel.findById({ _id: id }, { password: 0 });
-    } catch (error) {
-      console.error(error);
-    }
+    return await driverModel.findById({ _id: id }, { password: 0 });
   }
   async findDriverByEmail(email) {
-    try {
-      console.log("trepo", email);
-      const data = await driverModel.findOne({ email: email }).lean();
-      console.log("after reading froom db", data);
-      return data;
-    } catch (error) {
-      console.error(error);
-    }
+    return await driverModel.findOne({ email: email }).lean();
   }
   async findDriverByPhone(phone) {
-    try {
-      return await driverModel.findOne(phone);
-    } catch (error) {
-      console.error(error);
-    }
+    return await driverModel.findOne(phone);
   }
   async findDriverByIdAndUpdate(id, detailsToUpdate) {
-    console.log("id",id,detailsToUpdate);
-    
     return await driverModel
       .findByIdAndUpdate({ _id: id }, { $set: detailsToUpdate }, { new: true })
       .lean();
   }
 
   async getDriverByIdAndUpdate(id, dataToUpdate) {
-    console.log("data to update", dataToUpdate);
     return await driverModel.findByIdAndUpdate(
       { _id: id },
       { $set: dataToUpdate },
@@ -50,19 +32,10 @@ export class DriverRepository {
     );
   }
   async getAllDrivers(filter, page, limit) {
-    try {
-      console.log("f", filter, page, limit);
-
-      const result = await driverModel
-        .find(filter, { password: 0 })
-        .skip(page - 1)
-        .limit(limit);
-      console.log(result);
-
-      return result;
-    } catch (error) {
-      console.error(error);
-    }
+    return await driverModel
+      .find(filter, { password: 0 })
+      .skip(page - 1)
+      .limit(limit);
   }
 
   async findDriverByIdAndApprove(driverId) {
@@ -73,37 +46,49 @@ export class DriverRepository {
   }
 
   async getTotalDocs() {
-    try {
-      const totalDocs = await driverModel.countDocuments();
-      return totalDocs;
-    } catch (error) {}
+    return await driverModel.countDocuments();
   }
 
   async findNearstDriversAvailable(pickupCoordinates) {
-    try {
-      const data = await driverModel.aggregate([
-        {
-          $geoNear: {
-            near: {
-              type: "Point",
-              coordinates: [pickupCoordinates[0], pickupCoordinates[1]],
-            },
-            distanceField: "dist.calculated",
-            maxDistance: 8000,
-            query: { isAccepted: true },
-            spherical: true,
+    return await driverModel.aggregate([
+      {
+
+        $geoNear: {
+          near: {
+            type: "Point",
+            coordinates: [pickupCoordinates[0], pickupCoordinates[1]],
           },
-        },
-        {
-          $match: {
+          distanceField: "dist.calculated",
+          maxDistance: 8000,
+          query: { 
+            isAccepted: true,
             isBlocked: false,
-            isVerified: true,
-          },
+             isVerified: true,
+             isProfileComplete: true,
+             isAccepted: true,
+             isActive: true,
+             currentStatus: "active"  
+            },
+            spherical: true,
+          }
+          
         },
-      ]);
-      console.log("data", data);
-      return data;
-    } catch (error) {}
+      // },
+      // {
+      //   $match: {
+        
+      //       { isBlocked: false },
+      //       { isVerified: true },
+      //       { isProfileComplete: true },
+      //       { isAccepted: true },
+      //       { isActive: true },
+      //       { currentStatus: "active" },
+          
+      //   },
+      // },
+     
+    ]);
+
   }
   async rideRequestToSelectedVehicle(pickupCoordinates, vehicleType) {
     try {
@@ -125,10 +110,10 @@ export class DriverRepository {
             isBlocked: false,
             isVerified: true,
             "vehicleDetails.vehicle_type": vehicleType,
-            isActive:true,  
+            isActive: true,
             // currentStatus:'active'
-        }
-      }
+          },
+        },
       ]);
       return data;
     } catch (error) {}
@@ -139,7 +124,7 @@ export class DriverRepository {
       return await driverModel.findByIdAndUpdate(
         { _id: driverId },
         { $set: status },
-        {new:true}
+        { new: true }
       );
     } catch (error) {
       console.error(error);

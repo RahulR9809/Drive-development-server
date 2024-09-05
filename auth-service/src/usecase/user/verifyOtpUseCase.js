@@ -8,16 +8,24 @@ export class VerifyOtpUseCase {
     this.userRepository = new dependencies.repository.MongoUserRepository();
     this.kafka = new KafkaClient()
   }
-  async execute(sessionData, enteredOtp) {
+  async execute(session, otpEntered) {
     try {
       const awsS3Config = new S3Config();
-      if (!sessionData) {
+      console.log("session variable",session); 
+      
+      if (!session) {
         const error = new Error();
         error.status = 400;
         error.message = "Otp Expired";
         throw error;
       }
-      const { userId, otp } = sessionData;
+      const { userId, otp } = session;
+      if(!userId || !otp){
+        const error = new Error()
+        error.status = 400
+        error.message = "Bad Request"
+        throw error
+      }
       const user = await this.userRepository.findUserById(userId);
       if (user?.isBlocked) {
         const error = new Error();
@@ -25,7 +33,7 @@ export class VerifyOtpUseCase {
         error.message = "You are Blocked by the Admin";
         throw error;
       }
-      if (otp !== enteredOtp) {
+      if (otp !== otpEntered) {
         const error = new Error();
         error.status = 400;
         error.message = "Otp is not matching";

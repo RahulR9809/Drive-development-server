@@ -6,11 +6,9 @@ export class GetNearByDriverUseCase {
   async execute(userId, pickupLocation) {
     try {
       
-      console.log("iiiiiiiiiiiiiiiiiiii", userId, pickupLocation);
       const parsedLongitude = parseFloat(pickupLocation?.pickupLongitude);
       const parsedLatitude = parseFloat(pickupLocation?.pickupLatitude);
-      console.log(parsedLongitude);
-      console.log(parsedLatitude);
+
       const pickupCoordinates = [parsedLongitude, parsedLatitude];
 
       const nearestDriver =
