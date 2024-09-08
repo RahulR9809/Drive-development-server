@@ -20,7 +20,8 @@ import {
   UpdateUserDataUseCase,
   DriverRefreshTokenUseCase,
   AdminRefreshTokenUseCase,
-  SaveContactsUseCase
+  SaveContactsUseCase,
+  NewlyEnrolledUserUseCase
 } from "../usecase/index.js";
 import { MongoUserRepository,MongoDriverRepository, MongoAdminRepository } from "../interface/repository/index.js";
 
@@ -48,7 +49,8 @@ const useCase = {
   UserBlockUnblockUseCase,
   GetAllUserUseCase,
   UpdateUserDataUseCase,
-  SaveContactsUseCase
+  SaveContactsUseCase,
+  NewlyEnrolledUserUseCase
 };
 
 const repository = {

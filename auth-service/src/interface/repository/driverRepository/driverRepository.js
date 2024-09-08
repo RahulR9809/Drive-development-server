@@ -28,7 +28,7 @@ export class DriverRepository {
   }
   async findDriverByPhone(phone) {
     try {
-      return await driverModel.findOne(phone);
+      return await driverModel.findOne({phone});
     } catch (error) {
       console.error(error);
     }
@@ -50,7 +50,7 @@ export class DriverRepository {
   async getAllDrivers(filter,page,limit) {
     try {
       console.log('f',filter,page,limit);
-     const result =  await driverModel.find(filter, { password: 0 }).skip(page-1).limit(limit);
+     const result =  await driverModel.find(filter, { password: 0 });
      console.log(result);
      return result
     } catch (error) {
@@ -75,9 +75,35 @@ export class DriverRepository {
       
     }
   }
+
+  async sortDriversRegistrationByDate(dateRanges){
+    console.log(dateRanges);
+    
+const facetObj = {}
+    dateRanges.forEach((element,index) => {
+      const key = element.day
+      facetObj[key] =[ {
+        $match:{
+          createdAt:{
+            $gte:element.startTime,
+            $lte:element.endTime
+          }
+        }
+      },{
+        $count:"totalNewUsers"
+      }
+      ]
+    });
+return  await driverModel.aggregate([{
+  $facet:facetObj
+  }])
+  }
+
+  
   
 }
 
   
+
 
 

@@ -1,8 +1,13 @@
+
+//Users Usecases
+
 import { GoogleAuthUseCase} from "./user/googleAuthUseCase.js";
 import { EmailAuthUseCase } from "./user/emailAuthUseCase.js";
 import { VerifyOtpUseCase } from "./user/verifyOtpUseCase.js";
 import { userRefreshTokenUseCase } from "./user/userRefreshTokenUseCase.js";
 import {ResendOtpUseCase} from './user/resendOtpUseCase.js'
+
+
 import { DriverRegisterUseCase } from "./driver/registrationUseCase.js";
 import { DriverVerifyOtpUseCase } from "./driver/verifyOtpUseCase.js";
 import { DriverLoginUseCase } from "./driver/loginUseCase.js";
@@ -20,6 +25,7 @@ import { UpdateUserDataUseCase } from "./user/updateUserDataUseCase.js";
 import {DriverRefreshTokenUseCase} from './driver/driverRefreshTokenUseCase.js'
 import {AdminRefreshTokenUseCase} from './admin/adminRefreshTokenUseCase.js'
 import { SaveContactsUseCase } from "./user/saveContactsUseCase.js";
+import { NewlyEnrolledUserUseCase } from "./admin/newlyEnrolledUserUseCase.js";
 
 export {
   GoogleAuthUseCase,
@@ -47,7 +53,8 @@ export {
   UserBlockUnblockUseCase,
   GetAllUserUseCase,
   UpdateUserDataUseCase,
-  SaveContactsUseCase
+  SaveContactsUseCase,
+  NewlyEnrolledUserUseCase
 }
 
 

@@ -6,7 +6,7 @@ export const twilioAlertMessage = async(userInfo,savedContacts)=>{
     const twilioPhone = process.env.TWILIO_ACCOUNT_PHONE
     console.log("authLogin",accountSid,authToken);
     
-    // const client = twilio(accountSid, authToken); 
+    const client = twilio(accountSid, authToken); 
     console.log("userIndo",userInfo);
     
         const messageBody = `
@@ -29,21 +29,21 @@ Thank you for your prompt attention.
    `;
 //    return Promise.all()
 try {
-// const alertPromises = savedContacts.map((element)=>{
-//     console.log('twiliophone',process.env.TWILIO_ACCOUNT_PHONE);
+const alertPromises = savedContacts.map((element)=>{
+    console.log('twiliophone',process.env.TWILIO_ACCOUNT_PHONE);
     
-// return client.messages.create({
-//         body: messageBody,
-//         from:process.env.TWILIO_ACCOUNT_PHONE,
-//         to:`+91${element.phoneNumber}`
-//       });    
+return client.messages.create({
+        body: messageBody,
+        from:process.env.TWILIO_ACCOUNT_PHONE,
+        to:`+91${element.phoneNumber}`
+      });    
 
-//     // console.log("messs",mesasgae);
-// })
+    // console.log("messs",mesasgae);
+})
 
 
-// const data = await Promise.all(alertPromises)
-// console.log("promised",alertPromises);
+const data = await Promise.all(alertPromises)
+console.log("promised",alertPromises);
 
           
     } catch (error) {

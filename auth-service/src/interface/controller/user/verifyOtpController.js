@@ -14,10 +14,7 @@ export class VerifyOtpController {
         throw error;
       }
       const { data, accessToken, refreshToken } =
-        await this.verifyAuthUseCase.execute(
-          req.session,
-          otp
-        ); 
+        await this.verifyAuthUseCase.execute(req.session, otp);
       res.cookie("userRefreshToken", refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
@@ -28,6 +25,6 @@ export class VerifyOtpController {
     } catch (error) {
       console.error(error);
       next(error);
-    } 
+    }
   }
 }

@@ -7,7 +7,7 @@ export class ResendOtpUseCase{
     }
     async execute(email){
         try {
-        //  const otp  =   Math.floor(1000 + Math.random() * 9000).toString()
+      
        const otp = generateOTP()
        console.log('User Resend OTP',otp);
        await sendMail(otp,email)
@@ -18,7 +18,6 @@ export class ResendOtpUseCase{
         otp
        }
         } catch (error) {
-            console.error(error)
             throw error
         } 
     }

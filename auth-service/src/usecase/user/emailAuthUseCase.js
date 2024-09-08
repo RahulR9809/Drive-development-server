@@ -42,7 +42,7 @@ export class EmailAuthUseCase {
       } else {
         userId = findUserByEmailId._id;
       }
-      // const otp = Math.floor(1000 + Math.random() * 9000).toString();
+    
       const otp = generateOTP()
        await sendMail(otp, email);
        console.log('otp=====',otp);
@@ -51,7 +51,6 @@ export class EmailAuthUseCase {
         otp,
       };
     } catch (error) {
-      console.error(error);
       throw error
     }
   }

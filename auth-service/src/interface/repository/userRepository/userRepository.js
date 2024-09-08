@@ -12,34 +12,21 @@ export class UserRepository {
   }
   async findByIdUpdate(id, dataToUpdate) {
     return await userModel
-      .findByIdAndUpdate({ _id: id }, {$set:dataToUpdate}, { new: true })
+      .findByIdAndUpdate({ _id: id }, { $set: dataToUpdate }, { new: true })
       .lean();
   }
-  async getAllUsers(filter,page,limit) {
-try {
-  console.log('f',filter,page,limit);
-  
- const result =  await userModel.find(filter, { password: 0 })
- console.log(result);
- 
- return result
-} catch (error) {
-  console.error(error);
-  
-}
-    
+  async getAllUsers(filter) {
+    return await userModel.find(filter, { password: 0 });
   }
 
-  async getTotalDocs(){
-    try {
-      const  totalDocs = await userModel.countDocuments()
-      return totalDocs
-    } catch (error) {
-      
-    }
+  async getTotalDocs() {
+    return await userModel.countDocuments();
   }
-async getUserAndSaveContacts(id,data){
-return await userModel.findByIdAndUpdate({_id:id},{$addToSet:{savedContacts:data}},{new:true})
-}
-
+  async getUserAndSaveContacts(id, data) {
+    return await userModel.findByIdAndUpdate(
+      { _id: id },
+      { $addToSet: { savedContacts: data } },
+      { new: true }
+    );
+  }
 }

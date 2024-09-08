@@ -6,6 +6,8 @@ export class GetTripDetailByIdController{
         try {
             const {tripId} = req.params
          const getTripDetail =   await this.getTripDetailUseCase.execute(tripId)
+         console.log(getTripDetail);
+         
          res.status(201).json({getTripDetail})
         } catch (error) {
             console.error(error)

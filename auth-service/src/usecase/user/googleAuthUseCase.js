@@ -9,7 +9,7 @@ export class GoogleAuthUseCase {
   }
   async execute(token) {
     try {
-      const response = await axios.get(
+      const googleAuthResponse = await axios.get(
         `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token}`,
         {
           headers: {
@@ -18,12 +18,11 @@ export class GoogleAuthUseCase {
           },
         }
       );
-      const { email, email_verified, name } = response.data;
+      const { email, email_verified, name } = googleAuthResponse.data;
       const isUserExist = await this.userRepository.findUserByEmail(email);
       let data;
       if (isUserExist) {
         if (isUserExist.isBlocked) {
-          console.log("you are blocked by admin");
           const error = new Error();
           error.status = 403;
           error.message = "You are Currently blocked by the Admin";
@@ -91,7 +90,6 @@ export class GoogleAuthUseCase {
         refreshToken,
       };
     } catch (err) {
-      console.error(err);
       throw err;
     }
   }

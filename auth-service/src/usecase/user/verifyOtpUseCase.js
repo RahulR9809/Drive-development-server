@@ -11,7 +11,7 @@ export class VerifyOtpUseCase {
   async execute(session, otpEntered) {
     try {
       const awsS3Config = new S3Config();
-      console.log("session variable",session); 
+     
       
       if (!session) {
         const error = new Error();
@@ -60,7 +60,6 @@ export class VerifyOtpUseCase {
           imgField: "ProfileImg",
           Key: verifyUser?.profileImg,
         });
-        console.log("getImg", getImageFromS3);
         getImageUrl = getImageFromS3?.url;
       }
 

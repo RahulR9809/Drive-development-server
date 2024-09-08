@@ -12,13 +12,11 @@ export class UserLoginController {
       const { type } = req.params;
       if (type === "google") {
         const { token } = req.body;
-        if(!token) {
-          console.log('token is invalid')
-          const error = new Error()
-          error.status = 400
-          error.message = 'Authentication Token is Missing'
-          throw error
-          
+        if (!token) {
+          const error = new Error();
+          error.status = 400;
+          error.message = "Authentication Token is Missing";
+          throw error;
         }
         const { data, accessToken, refreshToken } =
           await this.googleAuthUseCase.execute(token);
@@ -26,25 +24,28 @@ export class UserLoginController {
           maxAge: 30 * 24 * 60 * 60 * 1000,
           httpOnly: true,
         });
-        res.status(201).json({ data, accessToken,message:'Google Authentication SuccessFull'});
+        res
+          .status(201)
+          .json({
+            data,
+            accessToken,
+            message: "Google Authentication SuccessFull",
+          });
       } else if (type === "email") {
         const { email } = req.body;
         if (!email) {
-          const error = new Error()
-          error.status = 400
-          error.message = 'Provide Valid Email'
-          throw error
+          const error = new Error();
+          error.status = 400;
+          error.message = "Provide Valid Email";
+          throw error;
         }
-          const { userId, otp } = await this.emailAuthUseCase.execute(email);
-          req.session.userId = userId; 
-          req.session.otp = otp;
-          res.status(200).json({ message:"Otp Send Sucessfully"})
-      } else {
-        console.log("is there any edge case think");
+        const { userId, otp } = await this.emailAuthUseCase.execute(email);
+        req.session.userId = userId;
+        req.session.otp = otp;
+        res.status(200).json({ message: "Otp Send Sucessfully" });
       }
     } catch (error) {
-      console.error('error in the loginController catch block',error);
-      next(error)
+      next(error);
     }
   }
 }

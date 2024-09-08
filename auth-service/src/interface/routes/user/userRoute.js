@@ -22,6 +22,9 @@ const controllers = {
  saveContactsController : new SaveContactsController(dependencies)
 };
 
+//POST request for Login
+//type params represents (google Login, email Login)
+// this route uses the login userLoginCotroller from managing user Login
 userRouter.post('/login/:type',async (req, res,next) => controllers.userLoginController.userLogin(req,res,next));
 userRouter.post('/verify-otp',async (req, res,next) => controllers.VerifyOtpController.verifyOtp(req,res,next));
 userRouter.post('/resend-otp',async(req,res,next)=>controllers.ResendOtpController.resendOtp(req,res,next))

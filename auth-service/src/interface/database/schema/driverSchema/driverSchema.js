@@ -74,6 +74,6 @@ const driverSchema = new mongoose.Schema({
       type:Array
     }
   }
-});
+},{timestamps:true});
 
 export const driverModel = mongoose.model("driver", driverSchema);

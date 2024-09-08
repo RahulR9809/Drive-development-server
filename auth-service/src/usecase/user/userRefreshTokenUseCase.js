@@ -41,11 +41,11 @@ export class userRefreshTokenUseCase {
         ...data,
         role: "USER",
       });
-      console.log('newyser',newAccessToken);
+    
       
       return newAccessToken;
     } catch (error) {
-      console.error(error);
+     
       throw error;
     }
   }
