@@ -19,6 +19,7 @@ import { StartRideUseCase } from "./driver/startRideUseCase.js";
 import { GetDriverOfflineUseCase } from "./driver/getDriverOfflineUseCase.js";
 import { CompleteRideUseCase } from "./driver/completeRideUseCase.js";
 import { EmergencyAlertUseCase } from "./user/sendEmergencyAlertUseCase.js";
+import { CancelRideUseCase } from "./user/cancelRideUseCase.js";
 
 
 export {
@@ -40,5 +41,6 @@ export {
     // RideCompleteUseCase,
     CompleteRideUseCase,
     ChangePaymentUseCase,
-    EmergencyAlertUseCase
+    EmergencyAlertUseCase,
+    CancelRideUseCase
 }

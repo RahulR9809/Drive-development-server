@@ -31,10 +31,6 @@ export const socketConnection = async (httpServer) => {
         const userId = data?.userId
         socket.to(userAndSocketId.get(userId)).emit('ride-start',data)
       })
-      // socket.on('nearby-dropoff',(data)=>{
-      //   const userId = data?.userId
-      //   socket.to(userAndSocketId.get(userId)).emit('nearby-dropoff',data)
-      // })
 
       socket.on('ride-complete',(data)=>{
         const userId = data?.userId
@@ -58,9 +54,7 @@ export const userNotify = (event, data, userId) => {
   
   const usereIdtoString = userId.toString();
   
-  
-console.log('userandSocket',userAndSocketId.get(usereIdtoString),event,data);
-console.log(event,data);
+
 
   io.to(userAndSocketId.get(usereIdtoString)).emit(event, data);
   return;

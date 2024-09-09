@@ -5,7 +5,6 @@ export class UserCurrentLocationController{
     }
     async getCurrentLocation(req,res,next){
         try {
-            console.log(req.body);
             const {userId,latitude,longitude} = req.body
       const currentLocation = await  this.userCurrentLocationUseCase.execute(userId,latitude,longitude)
             res.status(201).json({userDetail:currentLocation})

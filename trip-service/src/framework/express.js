@@ -20,8 +20,6 @@ const createServer = () => {
   }))
   app.use('/trip/users',userRouter)
   app.use('/trip/driver',driverRouter)
-
-//   app.use(ErrorHandling.errorHandler);
   return httpServer;
 };
 

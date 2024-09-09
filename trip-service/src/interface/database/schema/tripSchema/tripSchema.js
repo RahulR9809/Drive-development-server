@@ -13,13 +13,16 @@ const tripSchema = new mongoose.Schema({
     },
     tripStatus: {
       type: String,
-      enum: ['requested', 'accepted',  'completed', 'cancelled','rejected','started'],
+      enum: ['requested', 'accepted',  'completed', 'cancelled','rejected','started','no-response'],
       default: 'requested',
     },
     requestStatus:{
       type:String,
-      enum:['pending', 'accepted','rejected'],
+      enum:['pending', 'accepted','rejected','no-reponse','cancelled'],
       default:'pending'
+    },
+    cancellationReason:{
+      type:String,
     },
     rejectedDrivers:{
     type:[mongoose.Schema.Types.ObjectId],

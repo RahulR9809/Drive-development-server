@@ -4,17 +4,19 @@ this.acceptRideUseCase  = new dependencies.useCase.AcceptRideUseCase(dependencie
     }
     async acceptRide(req,res,next){
         try {
-            console.log('reqbody in Accept',req.body);
-            
             const {tripId,driverId,status} = req.body
+            if(!tripId || !driverId || !status){
+                const error = new Error()
+                error.message = "Bad Request:No necessary Data to process Request"
+                error.status = 400
+                throw error
+            }
           const acceptRide =  await this.acceptRideUseCase.execute(tripId,driverId,status)
           req.session.otp = acceptRide?.otp
-          console.log('otp inside the session',req.session);
-          
           res.status(201).json({acceptRide:acceptRide?.acceptRequest})
-            
         } catch (error) {
             console.error(error);
+            next(error)
             
         }
         

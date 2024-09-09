@@ -15,9 +15,9 @@ export class TripRepository {
     
     return upadateddata
   }
-  async findTripByIdAndReject(tripId, status) { 
+  async findTripByIdAndReject(tripId,status,driverId) { 
     return await tripModel.findByIdAndUpdate(
-      { _id:tripId  },
+      { _id:tripId },
       { $set: { requestStatus: status }, $push: { rejectedDrivers: driverId } }
     );
   }
@@ -25,6 +25,10 @@ export class TripRepository {
   async findTripAndUpdate(id,data){
     console.log("id and data",id, typeof data,data)
     return await tripModel.findByIdAndUpdate({_id:id},{$set:data},{new:true})
+  }
+
+  async findTripByUserId(userId){
+return await tripModel.findOne({userId},{requestStatus:"pending"})
   }
 
 

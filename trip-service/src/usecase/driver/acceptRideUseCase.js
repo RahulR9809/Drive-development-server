@@ -12,6 +12,12 @@ export class AcceptRideUseCase {
   }
   async execute(tripId, driverId, status) {
     try {
+      if(!tripId || !driverId ||!status){
+        const error = new Error()
+        error.status = 400
+        error.message = "Bad Request"
+        throw error
+      }
       const dataToUpdate = {
         driverId: driverId,
         requestStatus: status,
@@ -51,14 +57,11 @@ export class AcceptRideUseCase {
       const findUserEmail = findTrip.userId?.email;
       const otp = generateOTP();
       console.log("otp for Driver", "=============>", otp);
-      //  req.session.otp = otp
       await sendMail(otp, findUserEmail);
-      //    const updateDriverStatus = await this.driverRepository.updateDriverStatus(driverId,'Busy')
       const awsS3 = new S3Config()
 
       const profileUrl = await awsS3.getImageUrl({type:"ProfileImg",Key:acceptRequest?.driverId?.profileImg})
-      console.log('profileUrl',acceptRequest?.driverId?.profileImg);
-      
+     
 
       const dataToUser = {
         driverDetails:{
@@ -88,13 +91,11 @@ export class AcceptRideUseCase {
         _id:acceptRequest?._id
 
       }
-
-    //   userNotify("rideAccepted", acceptRequest, acceptRequest.userId);
       userNotify("rideAccepted", dataToUser, acceptRequest.userId);
-
       return { acceptRequest, otp };
     } catch (error) {
       console.error(error);
+      throw error
     }
   }
 }

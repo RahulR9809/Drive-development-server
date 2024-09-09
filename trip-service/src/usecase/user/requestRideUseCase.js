@@ -1,4 +1,4 @@
-import { notifyDriver } from "../../utils/socket.js";
+import { notifyDriver ,userNotify} from "../../utils/socket.js";
 import { RideRequestQueue } from "../../utils/helpers/rideRequestQueue.js";
 import { generateRandomUniqueId } from "../../utils/createUniqueId.js";
 import { KafkaClient } from "../../events/KafkaClient.js";
@@ -11,106 +11,17 @@ export class RideRequestUseCase {
     this.kafka = new KafkaClient()
   }
   async execute(data) {
-  //   try {
-  //     //   console.log(data);
-  //     const {userId,fare,distance,duration,pickUpCoords,dropCoords} = data
-  //     if(!userId||!fare||!distance||!duration||!pickUpCoords||!dropCoords){
-  //       const error = new Error('Bad Request Provide necessary Details for Request')
-  //       error.status = 400
-  //       throw error
-  //     }
-  //     const pickupLongituide = parseFloat(data?.pickUpCoords[0]);
-  //     const pickupLatitude = parseFloat(data?.pickUpCoords[1]);
-  //     const dropOffLongitude = parseFloat(data?.dropCoords[0]);
-  //     const dropOffLatitude = parseFloat(data?.dropCoords[1]);
-
-  //     generateRandomUniqueId()
-  //     const dataToInsert = {
-  //       userId: data?.userId,
-  //       fare: data?.fare,
-  //       distance: parseInt(data?.distance),
-  //       duration: parseInt(data?.duration),
-  //       startLocation: {
-  //         type: "Point",
-  //         coordinates: [pickupLongituide, pickupLatitude],
-  //       },
-  //       endLocation: {
-  //         type: "Point",
-  //         coordinates: [dropOffLongitude, dropOffLatitude],
-  //       },
-  //     };
-  //     const createTrip = await this.tripRepository.createTrip(dataToInsert);
-  //     const nearestDrivers =
-  //       await this.driverRepository.rideRequestToSelectedVehicle(
-  //         data?.pickUpCoords,
-  //         data.vehicleType
-  //       );
-  //     for (const nearByDriver of nearestDrivers) {
-  //       this.requestQueue.enqueue(nearByDriver._id);
-  //     }
-
-  //     console.log("queue", this.requestQueue.print());
-
-  //     // let driverFound = false
-
-  //     const handlereqest = () => {
-  //       if (this.requestQueue.isEmpty()) {
-  //         console.log("isEmpty");
-
-  //         return;
-  //       }
-
-  //       // Notifiacation To the Driver In the Request Queue
-  //       let driverDataToString = this.requestQueue.dequeue();
-  //       console.log(driverDataToString);
-
-  //       notifyDriver("ride-request", createTrip, driverDataToString);
-  //       console.log("comeback");
-
-  //       const handleDriverResponse = async () => {
-  //         try {
-  //           console.log("entry");
-  //           // handle Driver Accept Request
-
-  //           const getTripById = await this.tripRepository.findTrip(
-  //             createTrip._id
-  //           );
-  //           const tripStatus = getTripById.tripStatus;
-
-  //           //handle the rerquest if handled properly
-
-  //           if (tripStatus == "accepted") {
-  //             return;
-  //           } else if (tripStatus == "rejected" || tripStatus == "requested") {
-  //             console.log("inside Reject");
-
-  //             //implement retry mechanism
-  //             handlereqest();
-  //           }
-  //         } catch (error) {
-  //           console.error(error);
-  //         }
-  //       };
-  //       console.log("before set");
-
-  //       setTimeout(() => {
-  //         console.log("inside the timeout");
-  //         handleDriverResponse();
-  //       }, 15000);
-  //     };
-  //     handlereqest();
-  //   } catch (error) {
-  //     console.error(error);
-  //     throw error
-  //   }
-  // }
+ 
   try {
    
     const { userId, fare, distance, duration, pickUpCoords, dropCoords, vehicleType,pickupLocation,dropLocation,paymentMethod } = data;
-    console.log('dropLocation',dropLocation);
+   
     
     if (!userId || !fare || !distance || !duration || !pickUpCoords || !dropCoords || !paymentMethod) {
-      throw new Error('Bad Request: Provide necessary details for the request');
+      const error =  new Error();
+      error.message = 'Bad Request: Provide necessary details for the request'
+      error.status = 400
+      throw error
     }
 
     
@@ -183,7 +94,7 @@ export class RideRequestUseCase {
     const handleRequest = async () => { 
       if (this.requestQueue.isEmpty()) {
         console.log("Request queue is empty");
-        return;
+        return
       }
 
       const driverId = this.requestQueue.dequeue();
@@ -199,7 +110,13 @@ export class RideRequestUseCase {
           const { requestStatus } = trip;
 
           if (requestStatus === "accepted") {
-            return;
+            return{
+              requestCurrentStatus:"accepted"
+            };
+          }
+
+          if(requestStatus === 'cancelled'){
+            return
           }
 
           if (["rejected", "pending"].includes(requestStatus)) {
@@ -208,16 +125,14 @@ export class RideRequestUseCase {
           }
         } catch (error) {
           console.error("Error handling driver response:", error);
+          throw error
         }
       };
-
-    
       setTimeout(handleDriverResponse, 15000);
     };
 
     
     handleRequest();
-
   } catch (error) {
     console.error("Error executing ride request:", error);
     throw error;

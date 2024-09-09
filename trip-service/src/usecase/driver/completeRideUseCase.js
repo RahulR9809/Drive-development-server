@@ -1,5 +1,6 @@
 import { KafkaClient } from "../../events/KafkaClient.js";
 import { userNotify } from "../../utils/socket.js";
+import { TRIP_TOPIC,TRIP_UPDATED } from "../../events/config.js";
 
 export class CompleteRideUseCase {
   constructor(dependencies) {
