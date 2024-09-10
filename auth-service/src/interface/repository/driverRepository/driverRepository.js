@@ -81,7 +81,7 @@ export class DriverRepository {
     
 const facetObj = {}
     dateRanges.forEach((element,index) => {
-      const key = element.day
+      const key = element.label
       facetObj[key] =[ {
         $match:{
           createdAt:{

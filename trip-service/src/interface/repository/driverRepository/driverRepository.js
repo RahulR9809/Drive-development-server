@@ -130,4 +130,8 @@ export class DriverRepository {
       console.error(error);
     }
   }
+
+  // async getDriverTripCompletedStat(driverId,dateRange){
+  
+ 
 }

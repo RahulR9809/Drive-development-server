@@ -29,4 +29,29 @@ export class UserRepository {
       { new: true }
     );
   }
+
+  async sortNewlyRegisterdUsers(dateRanges) {
+    let facetObj = {};
+    dateRanges.forEach((element) => {
+      const key = element.label;
+      facetObj[key] = [
+        {
+          $match: {
+            createdAt: {
+              $gte: element.startTime,
+              $lte: element.endTime,
+            },
+          },
+        },
+        {
+          $count: "totalNewUsers",
+        },
+      ];
+    });
+    return await userModel.aggregate([
+      {
+        $facet: facetObj,
+      }
+    ]);
+  }
 }

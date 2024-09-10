@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { tripModel } from "../../database/schema/tripSchema/tripSchema.js";
 export class TripRepository {
   constructor() {}
@@ -30,6 +31,50 @@ export class TripRepository {
   async findTripByUserId(userId){
 return await tripModel.findOne({userId},{requestStatus:"pending"})
   }
+
+  async getDriverTripCompletedStat(driverId,dateRanges) {
+    console.log('in');
+    console.log(driverId);
+    
+    try {
+    let facetObj = {};
+    dateRanges.forEach((element) => {
+      const key = element.label;
+      
+      facetObj[key] = [
+        {
+          $match: {
+            driverId:new mongoose.Types.ObjectId(driverId),
+            tripStatus:'completed',
+            createdAt: {
+              $gte: element.startTime,
+              $lte: element.endTime,
+            },
+          },
+        },
+        {
+          $count: "totalRidesCompleted",
+        },
+      ];
+    });
+    console.log(facetObj);
+    console.log('entry');
+  
+    return  await tripModel.aggregate([
+      {
+        $facet: facetObj,
+      }
+     
+    ]);
+   
+  } catch (error) {
+    console.error(error);
+    
+  }
+   
+    
+  }
+
 
 
 }

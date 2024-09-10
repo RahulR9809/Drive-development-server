@@ -11,7 +11,6 @@ import { GetAdditionalTripDataUseCase } from "./user/getAdditionalTripData.js";
 import { ReverseGeoCodeUseCase } from "./user/reverseGeocodeUseCase.js";
 import { ChangePaymentUseCase } from "./user/changePaymentUseCase.js";
 
-
 import { AcceptRideUseCase } from "./driver/acceptRideUseCase.js";
 import { RejectRideUseCase } from "./driver/rejectRideUseCase.js";
 import { StartRideUseCase } from "./driver/startRideUseCase.js";
@@ -20,6 +19,7 @@ import { GetDriverOfflineUseCase } from "./driver/getDriverOfflineUseCase.js";
 import { CompleteRideUseCase } from "./driver/completeRideUseCase.js";
 import { EmergencyAlertUseCase } from "./user/sendEmergencyAlertUseCase.js";
 import { CancelRideUseCase } from "./user/cancelRideUseCase.js";
+import { TripCountUseCase } from "./driver/tripCountUseCase.js";
 
 
 export {
@@ -42,5 +42,6 @@ export {
     CompleteRideUseCase,
     ChangePaymentUseCase,
     EmergencyAlertUseCase,
-    CancelRideUseCase
+    CancelRideUseCase,
+    TripCountUseCase
 }

@@ -94,8 +94,5 @@ adminRouter.get(
 );
 adminRouter.get('/dashboard/newusers/:filter',AuthHandler.isAdminLogin,async(req,res,next)=>controllers.newUsersReportController.newlyEnrolledUsers(req,res,next))
 
-//   adminRouter.get('/users',AuthHandler.isAdminLogin,async(req,res,next)=>controllers.getAllUsersController.getAllUsers(req,res,next)) 
-// adminRouter.get('/drivers',AuthHandler.isAdminLogin,async(req,res,next)=>controllers.getAllDriversController.getAllDrivers(req,res,next)) 
-
 
 export default adminRouter;

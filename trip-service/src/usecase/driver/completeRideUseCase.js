@@ -9,12 +9,11 @@ export class CompleteRideUseCase {
   }
   async execute(tripId,userId){
     try {
-      console.log("inside the execure==============>");
-      
+    
         const dataToUpdate = {
             tripStatus:'completed'
         }
-        console.log("inside the repository====>");
+       
         
        const completeRide =  await this.tripRepository.findTripByIdAndUpdate(tripId,dataToUpdate)
 
@@ -42,11 +41,9 @@ export class CompleteRideUseCase {
         value:JSON.stringify(dataToPublish)
       })
 
-       console.log('ride',completeRide);
-       
-       console.log("before==========>")
+
       userNotify('ride-complete','trip-finished',userId)
-      console.log("after==========>")
+      
 
       return completeRide
     } catch (error) {
