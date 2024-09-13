@@ -19,7 +19,8 @@ import {
   ChangePaymentUseCase,
   EmergencyAlertUseCase,
   CancelRideUseCase,
-  TripCountUseCase
+  TripCountUseCase,
+  GetTripHistoryUseCase
   
 } from "../usecase/index.js";
 import { 
@@ -49,8 +50,8 @@ const useCase = {
   ChangePaymentUseCase,
   EmergencyAlertUseCase,
   CancelRideUseCase,
-  TripCountUseCase
-  
+  TripCountUseCase,
+  GetTripHistoryUseCase
 };
 
 const repository = {

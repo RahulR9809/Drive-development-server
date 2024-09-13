@@ -66,7 +66,7 @@ export class DriverLoginUseCase {
                 isVerified:existingUser?.isVerified,
                 isProfileCompleted:existingUser?.isProfileComplete,
                 isAccepted:existingUser?.isAccepted,
-                editRequest:existingUser?.editRequest
+                editRequest:existingUser?.editRequest,
               };
               return {
                 data,

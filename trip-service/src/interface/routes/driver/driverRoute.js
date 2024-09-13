@@ -19,7 +19,8 @@ const controllers = {
    rideRejectController: new RejectRideController(dependencies),
    startRideController:new StartRideController(dependencies),
    rideCompleteController : new RideCompleteController(dependencies),
-   tripCountController : new TripCountController(dependencies)
+   tripCountController : new TripCountController(dependencies),
+   
 }
 
 driverRouter.put('/online',AuthHandler.isDriverLogin,async(req,res,next)=>{controllers.getOnlineController.getOnline(req,res,next)})

@@ -20,6 +20,7 @@ import { CompleteRideUseCase } from "./driver/completeRideUseCase.js";
 import { EmergencyAlertUseCase } from "./user/sendEmergencyAlertUseCase.js";
 import { CancelRideUseCase } from "./user/cancelRideUseCase.js";
 import { TripCountUseCase } from "./driver/tripCountUseCase.js";
+import { GetTripHistoryUseCase } from "./user/getTripHistoryUseCase.js"; 
 
 
 export {
@@ -43,5 +44,6 @@ export {
     ChangePaymentUseCase,
     EmergencyAlertUseCase,
     CancelRideUseCase,
-    TripCountUseCase
+    TripCountUseCase,
+    GetTripHistoryUseCase
 }

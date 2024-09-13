@@ -42,7 +42,7 @@ export class CompleteRideUseCase {
       })
 
 
-      userNotify('ride-complete','trip-finished',userId)
+      userNotify('ride-complete',{fare:completeRide?.fare,distance:completeRide?.distance,duration:completeRide?.duration,isPaymentComplete:completeRide?.isPaymentComplete},userId)
       
 
       return completeRide

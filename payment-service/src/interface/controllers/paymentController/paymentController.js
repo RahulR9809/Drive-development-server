@@ -34,7 +34,7 @@ export class PaymentController {
           .status(201)
           .json({
             success: true,
-            payment: initiateOnlinePayment?.createStripeSeesion,
+            payment: initiateOnlinePayment?.stripeSession,
           });
       } else if (paymentMethod === "Wallet") {
         const initiateWalletPayment = await this.walletPaymentUseCase.execute(req.body)
@@ -43,7 +43,7 @@ export class PaymentController {
       }
     } catch (error) {
       console.error(error);
-      next(error);
+      // next(error);
     }
   }
 }

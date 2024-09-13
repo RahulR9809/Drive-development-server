@@ -1,26 +1,63 @@
+import { KafkaClient } from "../../events/KafkaClient.js";
+import { TRIP_TOPIC,PAYMENT_CANCELLED } from "../../events/config.js";
 import { notifyDriver } from "../../utils/socket.js";
+
 
 export class CancelRideUseCase {
   constructor(dependencies) {
     this.tripRepository = new dependencies.repository.MongoTripRepository();
+    this.kafka = new KafkaClient()
   }
   async execute(cancelInfo) {
     try {
         const { userId, tripId,cancelReason } = cancelInfo;
-        if(!userId || !cancelReason){
+        if(!userId || !cancelReason || !tripId){
             const error = new Error()
              error.message = "Bad Request"
              error.status = 400
              throw error
         }
-        if (!tripId) {
-          const trip = await this.tripRepository.findTripByUserId(userId);
-          console.log("trips=>",trip);
-          console.log(trip.requestStatus);
-          
-          if (trip.requestStatus == "pending" || trip.requestStatus == "rejected" ) {
-            console.log("inside the condition");
-            
+       
+        // if (tripId && userId) {
+        //   const trip = await this.tripRepository.findTrip(tripId);
+        //   if (trip.requestStatus == "accepted") {
+        //     const cancelTrip = await this.tripRepository.findTripByIdAndUpdate(
+        //       trip._id,
+        //       {
+        //         requestStatus: "cancelled",
+        //         tripStatus: "cancelled",
+        //         cancellationReason: cancelInfo.cancelReason
+        //       }
+        //     );
+        //     const compensation = cancelTrip?.fare * 20/100
+        //     notifyDriver(
+        //       "ride-cancelled",
+        //       cancelTrip?.cancellationReason,
+        //       trip.driverId
+        //     )
+        //   this.kafka(TRIP_TOPIC,{
+        //     type:PAYMENT_CANCELLED,
+        //     message:""
+        //   })
+            // return {
+            //   cancelPeriod: "After Accepting Ride",
+            //   fineAmount:compensation
+            // };
+          // }
+          // if (trip.requestStatus == "started") {
+          //   const cancelTrip = await this.tripRepository.findTripByIdAndUpdate(trip._id,{requestStatus: "cancelled",tripStatus: "cancelled",cancellationReason: cancelInfo.cancelReason});
+          //   notifyDriver(  "ride-cancelled",
+          //       cancelTrip?.cancellationReason,
+          //       trip.driverId)
+          //   const compensation = cancelTrip?.fare * 45/100
+                
+          //       return {
+          //           cancelPeriod: "After starting Ride",
+          //           fineAmount:compensation
+          //         };
+          // }
+          const trip = await this.tripRepository.findTrip(tripId)
+          if (trip.requestStatus == "pending" || trip.requestStatus == "rejected" || trip.requestStatus == "accepted" ) {
             const cancelTrip = await this.tripRepository.findTripByIdAndUpdate(
               trip._id,
               {
@@ -30,50 +67,13 @@ export class CancelRideUseCase {
               }
             );
             console.log("tripcancelled",cancelTrip);
-            
-            return {
-              cancelPeriod: "before Accepting",
-            };
+            if(trip.requestStatus == "accepted"){
+              notifyDriver('cancel-ride',cancelInfo?.cancelReason,cancelTrip?.driverId)
+            }
+            return
           }
         }
-        if (tripId && userId) {
-          const trip = await this.tripRepository.findTrip(tripId);
-          if (trip.requestStatus == "accepted") {
-            console.log("accepted");
-            
-            const cancelTrip = await this.tripRepository.findTripByIdAndUpdate(
-              trip._id,
-              {
-                requestStatus: "cancelled",
-                tripStatus: "cancelled",
-                cancellationReason: cancelInfo.cancelReason,
-              }
-            );
-            const compensation = cancelTrip?.fare * 20/100
-            notifyDriver(
-              "ride-cancelled",
-              cancelTrip?.cancellationReason,
-              trip.driverId
-            );
-            return {
-              cancelPeriod: "After Accepting Ride",
-              fineAmount:compensation
-            };
-          }
-          if (trip.requestStatus == "started") {
-            const cancelTrip = await this.tripRepository.findTripByIdAndUpdate(trip._id,{requestStatus: "cancelled",tripStatus: "cancelled",cancellationReason: cancelInfo.cancelReason});
-            notifyDriver(  "ride-cancelled",
-                cancelTrip?.cancellationReason,
-                trip.driverId)
-            const compensation = cancelTrip?.fare * 45/100
-                
-                return {
-                    cancelPeriod: "After starting Ride",
-                    fineAmount:compensation
-                  };
-          }
-        }
-    } catch (error) {
+    catch (error) {
         throw error
     }
    

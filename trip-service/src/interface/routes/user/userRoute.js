@@ -6,6 +6,8 @@ import { RideRequestController } from '../../controllers/userController/driveReq
 import { ChangePaymentModeController } from '../../controllers/userController/changePaymentModeController.js'
 import { EmergencyAlertController } from '../../controllers/userController/emergencyAlertController.js'
 import { CancelRideController } from '../../controllers/userController/cancelRideController.js'
+import { ReverseGeoCodeController } from '../../controllers/userController/reverseGeocodeController.js'
+import { GetTripHistoryController } from '../../controllers/userController/getTripHistoryController.js'
 
 import { dependencies } from '../../../config/dependencies.js'
 import { AuthHandler } from '../../middleware/authMiddleware.js'
@@ -19,7 +21,10 @@ const controllers = {
     rideRequestController: new RideRequestController(dependencies),
     changePaymentController: new ChangePaymentModeController(dependencies),
     emergencyAlertController: new EmergencyAlertController(dependencies),
-    cancelRideController:new CancelRideController(dependencies)
+    cancelRideController:new CancelRideController(dependencies),
+    reverseGeocodeController: new ReverseGeoCodeController(dependencies),
+    getAllTripDetailsController: new GetTripHistoryController (dependencies),
+
 
 }
 userRouter.post('/location',AuthHandler.isUserLogin,async(req,res,next)=>controllers.getUserCurrentLocationController.getCurrentLocation(req,res,next))
@@ -29,6 +34,8 @@ userRouter.post('/request-ride',AuthHandler.isUserLogin,async(req,res,next)=>{co
 userRouter.post('/cancel-ride',AuthHandler.isUserLogin,async(req,res,next)=>{controllers.cancelRideController.cancelRide(req,res,next)})
 userRouter.put('/change-paymentmode',AuthHandler.isUserLogin,async(req,res,next)=>{controllers.changePaymentController.changePaymentMode(req,res,next)})
 userRouter.post('/emergency-alert',async(req,res,next)=>{controllers.emergencyAlertController.sendAlert(req,res,next)})
+userRouter.get('/reverse-geocode',async(req,res,next)=>controllers.reverseGeocodeController.reverseGeocode(req,res,next))
+userRouter.get('/trip-details/:userId',AuthHandler.isUserLogin,async(req,res,next)=>controllers.getAllTripDetailsController.getTripHistory(req,res,next))
 
 
 export default userRouter

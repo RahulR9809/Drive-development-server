@@ -133,6 +133,7 @@ export class RideRequestUseCase {
 
     
     handleRequest();
+    return createTrip
   } catch (error) {
     console.error("Error executing ride request:", error);
     throw error;

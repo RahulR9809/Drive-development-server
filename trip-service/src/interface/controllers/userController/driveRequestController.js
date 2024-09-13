@@ -33,7 +33,7 @@ export class RideRequestController {
       }
       const requestToDriver = await this.requestRideUseCase.execute(req.body);
       console.log('requestDriver=>',requestToDriver);
-      res.status(200).json({message:"Request Processing"})
+      res.status(200).json({tripdata:requestToDriver,createmessage:"Request Processing"})
     } catch (error) {
       console.error(error);
       next(error);

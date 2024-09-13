@@ -16,7 +16,7 @@ export class StripePaymentUseCase {
         this.userRepository.findUserById(userId),
         this.tripRepository.findTripById(tripId),
       ]);
-      const stripeSession = creatStripSession(
+      const stripeSession = await creatStripSession(
         userDetails?.email,
         tripId,
         tripDetails?.pickUpLocation,
@@ -33,6 +33,10 @@ export class StripePaymentUseCase {
       );
       const { driverWalletHistory, driverBalanceUpdate, companyWalletUpdate } =
         await this.walletUpdates.UpdateWallets(fare, driverId, tripId,paymentMethod);
+        console.log('stripesessopm',stripeSession);
+        console.log(payment);
+        
+        
       return {
         stripeSession,
         payment,
