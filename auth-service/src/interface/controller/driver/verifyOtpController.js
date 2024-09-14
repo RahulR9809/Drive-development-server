@@ -10,17 +10,24 @@ export class VerifyOtpController {
       if (!otp) {
         const error = new Error();
         error.status = 400;
-        error.message = "Otp Error";
+        error.message = "Provide Valid OTP";
         throw error;
       } 
-      const { data } =
+      const {otpDetails} = req.session
+      if(!otpDetails){
+        const error = new Error()
+        error.message = "OTP has been expired"
+        error.status = 400
+        throw error
+      }
+      const verifiedDriverData  =
           await this.verifyAuthUseCase.execute(
-          req.session,
+          otpDetails,
           otp
         )
       res
         .status(200)
-        .json({ data, message: "Otp Verification SucessFull" });
+        .json({ data:verifiedDriverData, message: "Otp Verification SucessFull" });
     } catch (error) {
       console.error(error);
       next(error);

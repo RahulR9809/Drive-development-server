@@ -6,10 +6,12 @@ export class DriverVerifyOtpUseCase {
     this.driverRepository = new dependencies.repository.MongoDriverRepository();
     this.kafka = new KafkaClient()
   }
-  async execute(sessionData, enteredOtp) {
+  async execute(otpDetails, enteredOtp) {
     try {
-      if (sessionData) {
-        const {userId,otp} = sessionData
+     
+      
+      
+        const {userId,otp} = otpDetails
         const user = await this.driverRepository.findDriverbyId(userId);
 
         if (!user?.isBlocked) {
@@ -20,7 +22,7 @@ export class DriverVerifyOtpUseCase {
               updateVerificationStatus
             );
             console.log("verifyuser", verifyUser);
-            const data = {
+            const verifiedDriverData = {
               _id: verifyUser?._id,
               name: verifyUser?.name,
               email: verifyUser?.email,
@@ -31,21 +33,12 @@ export class DriverVerifyOtpUseCase {
               isAccepted:verifyUser?.isAccepted,
               editRequest:verifyUser?.editRequest
             };
-
-            const dataToPublish = {
-              _id:verifyUser._id,
-              isVerified:verifyUser.isVerified
-            }
-
             this.kafka.produceMessage(TOPIC,{
               type:DRIVER_UPDATED,
-              value:JSON.stringify(data)
+              value:JSON.stringify(verifiedDriverData)
 
             })
-
-            return {
-              data
-            };
+            return verifiedDriverData
           } else {
             const error = new Error()
             error.message = 'Otp Mismatch'
@@ -60,13 +53,7 @@ export class DriverVerifyOtpUseCase {
           error.message = "You are Blocked by the Admin";
           throw error
         }
-      } else {
-
-        const error = new Error()
-        error.status = 401;
-        error.message = 'Otp Expired'
-        throw error
-      }
+      
     } catch (err) {
       throw err;
     }

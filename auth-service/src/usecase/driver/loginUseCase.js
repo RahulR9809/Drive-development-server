@@ -8,11 +8,7 @@ export class DriverLoginUseCase {
   async execute(loginData) {
     try {
       const { email, password } = loginData;
-      console.log('njn pinnem ethi');
-      console.log(email, password);
-      console.log(this.driverRepository.findDriverByEmail);
       const existingUser = await this.driverRepository.findDriverByEmail(email);
-      console.log(existingUser);
       if (existingUser) {
         if (existingUser.isVerified) {
           if (!existingUser.isBlocked) {
@@ -21,7 +17,6 @@ export class DriverLoginUseCase {
               existingUser.password
             );
             if (verifyPassword) {
-              console.log("cer");
               const accessToken = await createAccessToken({
                 ...existingUser,
                 role: "DRIVER",
@@ -30,8 +25,6 @@ export class DriverLoginUseCase {
                 ...existingUser,
                 role: "DRIVER",
               });
-              console.log(accessToken, refreshToken, existingUser);
-              
               const awsS3Config = new S3Config()
  
               const uploadedImgArr = [{imgField:'profileImg',Key:existingUser?.profileImg},{imgField:'licenseImg',Key:existingUser?.license_Img},{imgField:'permitImg',Key:existingUser?.permit}]

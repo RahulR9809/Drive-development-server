@@ -16,6 +16,8 @@ import { DriverProfileUpdateUseCase } from "./driver/updateProfileUseCase.js";
 import { adminLoginUseCase } from "./admin/adminLoginUseCase.js";
 import { GetAllDriverUseCase } from "./admin/getAllDriverUseCase.js";
 import { GetDriverDetailsUseCase } from "./admin/getDriverDetailsUseCase.js";
+import { DriverResendOtpUseCase } from "./driver/resendOtpUseCase.js";
+
 import { DriverApprovalUseCase } from "./admin/driverApprovalUseCase.js";
 import { ApproveProfileUpdateUseCase } from "./admin/approveProfileUpdateUseCase.js";
 import { DriverBlockUnblockUseCase } from "./admin/driverBlockUnblockUseCase.js";
@@ -40,6 +42,7 @@ export {
   DriverProfileUpdateUseCase,
   DriverLoginUseCase,
   DriverRefreshTokenUseCase,
+  DriverResendOtpUseCase,
   
 
 
