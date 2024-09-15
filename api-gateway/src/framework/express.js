@@ -14,7 +14,8 @@ export const createServer = () => {
     origin: 'http://localhost:3000',
     credentials: true,
   }));
-  app.use("/api/auth",authRouter)
+  app.use("/api/auth",(req,res,next)=>{console.log('hee');next()
+  },authRouter)
   app.use('/api/trip',tripRouter)
   app.use('/api/chat',chatRouter)
   app.use('/api/payment',(req,res,next)=>{console.log("hi");next()

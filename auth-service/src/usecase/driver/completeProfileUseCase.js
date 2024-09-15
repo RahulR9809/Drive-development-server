@@ -9,28 +9,25 @@ export class CompleteProfileUseCase {
   }
   async execute(body, files) {
 
-    //Getting details from Request Body
-
-    const { licenseNumber, vehicleType, vehicleRC, driverId } = body;
-    console.log('body obj',body);
+ try {
+  const { licenseNumber, vehicleType, vehicleRC, driverId } = body;
+    
     
     if(!licenseNumber || !vehicleType || !vehicleRC || !driverId){
         const error = new Error()
-        error.message('Fill all the Fields')
-        error.status(400)
+        error.message = "Provide Necessary Details"
+        error.status = 400
         throw error
     }
 
     const s3Instance = new S3Config();
-
-    //waiting until the images are uploaded into S3 Bucket
 
     const uploadResults = await Promise.all(
       files.map((img) => {
         return s3Instance.uploadImage(img);
       })
     );
-    console.log("uploads", uploadResults);
+    
     
     let driverLicenseImg, driverProfileImg, driverPermit;
     for (const imgData of uploadResults) {
@@ -54,10 +51,6 @@ export class CompleteProfileUseCase {
       },
       isProfileComplete:true
     }
-    console.log(driverId);
-    console.log('after Body',driverId);
- 
-    
 
   const updateDriverProfile  = await this.driverRepository.findDriverByIdAndUpdate(driverId,detailsToInsert)
  
@@ -73,8 +66,6 @@ export class CompleteProfileUseCase {
     },
     isProfileComplete:updateDriverProfile?.isProfileComplete
   }
-  console.log('dataToPublish',dataToPublish);
-  
   
   this.kafka.produceMessage(TOPIC,{
     type:DRIVER_UPDATED,
@@ -85,7 +76,7 @@ export class CompleteProfileUseCase {
           return s3Instance.getImageUrl(img);
         })
       );
-      console.log(imageUrl);
+      
       let licenseUrl, profileUrl, permitUrl;
       for (const img of imageUrl) {
         if (img.key === "licensePhoto") {
@@ -118,6 +109,13 @@ export class CompleteProfileUseCase {
         isAccepted:updateDriverProfile?.isAccepted,
         editRequest:updateDriverProfile?.editRequest
       };
-    }
+    
+ } catch (error) {
+  console.error(error)
+  throw error
+ }
+}
+
+    
   }
 
