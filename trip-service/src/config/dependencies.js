@@ -20,7 +20,10 @@ import {
   EmergencyAlertUseCase,
   CancelRideUseCase,
   TripCountUseCase,
-  GetTripHistoryUseCase
+  GetTripHistoryUseCase,
+  TopTripUseCase,
+  CompletedTripCountUseCase,
+  GetLatestTripsUseCase
   
 } from "../usecase/index.js";
 import { 
@@ -51,7 +54,10 @@ const useCase = {
   EmergencyAlertUseCase,
   CancelRideUseCase,
   TripCountUseCase,
-  GetTripHistoryUseCase
+  GetTripHistoryUseCase,
+  TopTripUseCase,
+  CompletedTripCountUseCase,
+  GetLatestTripsUseCase
 };
 
 const repository = {

@@ -7,7 +7,7 @@ import { WalletController } from '../controllers/paymentController/walletControl
 import { AddMoneyToWalletController } from '../controllers/paymentController/AddMoneyToWalletController.js'
 import { GetWalletBalanceController } from '../controllers/paymentController/getWalletBalanceController.js'
 import { GetWalletHistoryController } from '../controllers/paymentController/getWalletHistoryController.js'
-// import { GetDriverWalletBalanceController } from '../controllers/paymentController/getDriverBalanceController.js'
+import { GetDriverWalletBalanceController } from '../controllers/paymentController/getDriverBalanceController.js'
 // import { GetDriverWalletHistoryController } from '../controllers/paymentController/getDriverWalletHistoryController.js'
 import { GetDriverWalletDetailsController } from '../controllers/paymentController/getDriverWalletDetailsController.js'
 import { dependencies } from '../../config/dependencies.js'
@@ -22,7 +22,7 @@ const controllers = {
     walletController: new WalletController(dependencies),
     addMoneytoWallet: new AddMoneyToWalletController(dependencies),
     getWalletBalanceController : new GetWalletBalanceController(dependencies),
-    // getDriverWalletBalanceController: new GetDriverWalletBalanceController(dependencies),
+    getDriverWalletBalanceController: new GetDriverWalletBalanceController(dependencies),
     getWalletHistoryController: new GetWalletHistoryController(dependencies),
     // getDriverWalletHistory: new GetDriverWalletHistoryController(dependencies),
     getDriverWalletDetailsController: new GetDriverWalletDetailsController(dependencies),
@@ -37,7 +37,7 @@ paymentRouter.post('/wallet',AuthHandler.isUserLogin,async(req,res,next)=>contro
 paymentRouter.get('/trip-deatils/:tripId',AuthHandler.isUserLogin,async(req,res,next)=>controllers.getTripDetailByIdController.getTripDetailById(req,res,next))
 paymentRouter.post('/wallet/addmoney',AuthHandler.isUserLogin,async(req,res,next)=>controllers.addMoneytoWallet.addMoney(req,res,next))
 paymentRouter.get('/user/get-walletbalance/:userId',AuthHandler.isUserLogin,async(req,res,next)=>controllers.getWalletBalanceController.getWalletBalance(req,res,next))
-// paymentRouter.get('/driver/get-walletbalance/:driverId',AuthHandler.isDriverLogin,async(req,res,next)=>controllers.getDriverWalletBalanceController.getDriverBalance(req,res,next))
+paymentRouter.get('/driver/walletbalance/:driverId',AuthHandler.isDriverLogin,async(req,res,next)=>controllers.getDriverWalletBalanceController.getDriverBalance(req,res,next))
 // paymentRouter.get('/driver/wallethistory/:driverId',AuthHandler.isDriverLogin,async(req,res,next)=>controllers.getDriverWalletHistory.getDriverWalletHistory(req,res,next))
 paymentRouter.get(`/driver/walletdetails/:driverId`,AuthHandler.isDriverLogin,async(req,res,next)=>controllers.getDriverWalletDetailsController.getDriverWalletDetails(req,res,next))
 

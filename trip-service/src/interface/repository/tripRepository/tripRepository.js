@@ -77,20 +77,70 @@ export class TripRepository {
     }
   }
 
-  async findTripCountPerUser(userId){
+  async findTripCountPerUser(userId) {
     try {
-     return await tripModel.countDocuments({userId:userId})
+      return await tripModel.countDocuments({ userId: userId });
     } catch (error) {
       console.error(error);
-      
     }
   }
 
-  async findAllTrips(userId,page,limit=6){
-try {
-  return await tripModel.find({userId:userId}).skip(page).limit(limit)
-} catch (error) {
-  console.error(error);
-}
+  async findAllTrips(userId, page, limit = 6) {
+    try {
+      return await tripModel.find({ userId: userId }).skip(page).limit(limit);
+    } catch (error) {
+      console.error(error);
+    }
   }
+
+  async topTrips(driverId) {
+    return await tripModel
+      .find({ driverId: driverId })
+      .sort({ fare: -1 })
+      .limit(10)
+      .populate({ path: "userId", select: "name" })
+      .select("fare pickUpLocation dropOffLocation distance");
+  }
+
+  async latestTrips(driverId) {
+    return await tripModel
+      .find({ driverId: driverId })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .populate({path:'userId',select:'name'})
+      .select("fare pickUpLocation dropOffLocation distance")
+      
+  }
+  async topRidersBooking(driverId) {
+    const data =  await tripModel.aggregate([
+      { $match: { driverId: new mongoose.Types.ObjectId(driverId) } },
+      { $group: { _id: "$userId", topRiders: { $sum: 1 } } },
+      { $sort: { topRiders: -1 } },
+      { $limit: 6 },
+      {
+        
+          $lookup: {
+            from: 'users', 
+            localField: '_id', 
+            foreignField: '_id', 
+            as: 'userDetails'
+          }
+      },
+      {
+        $unwind:'$userDetails'
+      },
+      {
+        $project:{
+          topRiders:1,
+          'userName':'$userDetails.name'
+        }
+      }
+    ]);
+    return data
+    
+  }
+  async completedTripCount(driverId){
+return await tripModel.find({driverId:driverId,tripStatus:'completed'}).countDocuments()
+  }
+  
 }

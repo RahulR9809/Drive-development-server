@@ -8,6 +8,7 @@ import { EmergencyAlertController } from '../../controllers/userController/emerg
 import { CancelRideController } from '../../controllers/userController/cancelRideController.js'
 import { ReverseGeoCodeController } from '../../controllers/userController/reverseGeocodeController.js'
 import { GetTripHistoryController } from '../../controllers/userController/getTripHistoryController.js'
+import { TopTripsController } from '../../controllers/driverController/topTripsController.js'
 
 import { dependencies } from '../../../config/dependencies.js'
 import { AuthHandler } from '../../middleware/authMiddleware.js'

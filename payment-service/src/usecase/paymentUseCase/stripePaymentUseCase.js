@@ -3,8 +3,7 @@ import { WalletRecordUpates } from "../../helpers/walletRecordUpdate.js";
 
 export class StripePaymentUseCase {
   constructor(dependencies) {
-    this.paymentRepository =
-      new dependencies.repository.MongoPaymentRepository();
+    this.paymentRepository =new dependencies.repository.MongoPaymentRepository();
     this.userRepository = new dependencies.repository.MongoUserRepository();
     this.tripRepository = new dependencies.repository.MongoTripRepository();
     this.walletUpdates = new WalletRecordUpates()

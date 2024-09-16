@@ -6,6 +6,9 @@ import { StartRideController } from '../../controllers/driverController/startRid
 import { RideCompleteController } from '../../controllers/driverController/rideCompleteController.js'
 import { GetDriverOfflineController } from '../../controllers/driverController/getOfflineController.js'
 import { TripCountController } from '../../controllers/driverController/tripCountController.js'
+import { TopTripsController } from '../../controllers/driverController/topTripsController.js'
+import { CompletedTripsCountController } from '../../controllers/driverController/getCompletedTripsCount.js'
+import { GetLatestTripsController  } from '../../controllers/driverController/getLatestTripsController.js'
 import { dependencies } from '../../../config/dependencies.js'
 import { AuthHandler } from '../../middleware/authMiddleware.js'
 
@@ -20,7 +23,9 @@ const controllers = {
    startRideController:new StartRideController(dependencies),
    rideCompleteController : new RideCompleteController(dependencies),
    tripCountController : new TripCountController(dependencies),
-   
+   topTripsController:new TopTripsController(dependencies),
+   getCompletedTripsCount : new CompletedTripsCountController(dependencies) ,
+   getLatestTripsController: new GetLatestTripsController(dependencies)
 }
 
 driverRouter.put('/online',AuthHandler.isDriverLogin,async(req,res,next)=>{controllers.getOnlineController.getOnline(req,res,next)})
@@ -30,4 +35,9 @@ driverRouter.post('/reject-ride',AuthHandler.isDriverLogin,async(req,res,next)=>
 driverRouter.post('/start-ride',AuthHandler.isDriverLogin,async(req,res,next)=>{controllers.startRideController.startRide(req,res,next)})
 driverRouter.post('/complete-ride',AuthHandler.isDriverLogin,async(req,res,next)=>{controllers.rideCompleteController.completeRide(req,res,next)})
 driverRouter.get('/tripcount',AuthHandler.isDriverLogin,async(req,res,next)=>controllers.tripCountController.tripCount(req,res,next))
+driverRouter.get('/top-trips/:driverId',AuthHandler.isDriverLogin,async(req,res,next)=>controllers.topTripsController.topTrips(req,res,next))
+driverRouter.get('/completedtrip-count/:driverId',AuthHandler.isDriverLogin,async(req,res,next)=>controllers.getCompletedTripsCount.getCompletedTripsCount(req,res,next))
+driverRouter.get('/latest-trips/:driverId',AuthHandler.isDriverLogin,async(req,res,next)=>controllers.getLatestTripsController.latestTrips(req,res,next))
+
+
 export default driverRouter
