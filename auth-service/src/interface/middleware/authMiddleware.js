@@ -87,7 +87,9 @@ export class AuthHandler {
         error.message = "You are not Authorized";
         throw error; 
       }
-      const isDrivervalid = await userRepository.findDriverbyId(decodeToken.id);
+      console.log(',decode',decodeToken);
+      
+      const isDrivervalid = await driverRepository.findDriverbyId(decodeToken._id);
 
       if (!isDrivervalid || isDrivervalid.isBlocked) {
         const error = new Error();
