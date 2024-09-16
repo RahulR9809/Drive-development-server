@@ -6,6 +6,7 @@ import { EmailAuthUseCase } from "./user/emailAuthUseCase.js";
 import { VerifyOtpUseCase } from "./user/verifyOtpUseCase.js";
 import { userRefreshTokenUseCase } from "./user/userRefreshTokenUseCase.js";
 import {ResendOtpUseCase} from './user/resendOtpUseCase.js'
+import { UserLogoutUseCase } from "./user/userLogoutUseCase.js";
 
 
 import { DriverRegisterUseCase } from "./driver/registrationUseCase.js";
@@ -29,12 +30,14 @@ import {AdminRefreshTokenUseCase} from './admin/adminRefreshTokenUseCase.js'
 import { SaveContactsUseCase } from "./user/saveContactsUseCase.js";
 import { NewlyEnrolledUserUseCase } from "./admin/newlyEnrolledUserUseCase.js";
 
+
 export {
   GoogleAuthUseCase,
   EmailAuthUseCase,
   VerifyOtpUseCase,
   userRefreshTokenUseCase,
   ResendOtpUseCase,
+  UserLogoutUseCase,
 
   DriverRegisterUseCase,
   CompleteProfileUseCase as DriverCompleteProfileUseCase,

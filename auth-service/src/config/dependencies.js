@@ -22,7 +22,8 @@ import {
   AdminRefreshTokenUseCase,
   SaveContactsUseCase,
   NewlyEnrolledUserUseCase,
-  DriverResendOtpUseCase
+  DriverResendOtpUseCase,
+  UserLogoutUseCase
 } from "../usecase/index.js";
 import { MongoUserRepository,MongoDriverRepository, MongoAdminRepository } from "../interface/repository/index.js";
 
@@ -32,6 +33,7 @@ const useCase = {
   VerifyOtpUseCase,
   userRefreshTokenUseCase,
   ResendOtpUseCase,
+  UserLogoutUseCase,
 
   DriverRegisterUseCase,
   DriverLoginUseCase,
