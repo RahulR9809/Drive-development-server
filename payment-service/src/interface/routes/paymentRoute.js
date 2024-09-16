@@ -10,6 +10,7 @@ import { GetWalletHistoryController } from '../controllers/paymentController/get
 import { GetDriverWalletBalanceController } from '../controllers/paymentController/getDriverBalanceController.js'
 // import { GetDriverWalletHistoryController } from '../controllers/paymentController/getDriverWalletHistoryController.js'
 import { GetDriverWalletDetailsController } from '../controllers/paymentController/getDriverWalletDetailsController.js'
+import { GetCompanyWalletBalanceController } from '../controllers/paymentController/companyBalanceController.js'
 import { dependencies } from '../../config/dependencies.js'
 import { MongoCompanyWalletRepository } from '../repository/index.js'
 
@@ -26,7 +27,8 @@ const controllers = {
     getWalletHistoryController: new GetWalletHistoryController(dependencies),
     // getDriverWalletHistory: new GetDriverWalletHistoryController(dependencies),
     getDriverWalletDetailsController: new GetDriverWalletDetailsController(dependencies),
-    paymentController:new PaymentController(dependencies)
+    paymentController:new PaymentController(dependencies),
+    companyBalance: new GetCompanyWalletBalanceController(dependencies)
 
 
 }
@@ -45,6 +47,7 @@ paymentRouter.get(`/driver/walletdetails/:driverId`,AuthHandler.isDriverLogin,as
 // paymentRouter.get('/user/get-walletbalance/:userId',AuthHandler.isUserLogin,async(req,res,next)=>controllers.getWalletBalanceController.getWalletBalance(req,res,next))
 paymentRouter.get('/user/wallethistory/:userId',AuthHandler.isUserLogin,async(req,res,next)=>controllers.getWalletHistoryController.getWalletHistory(req,res,next))
 paymentRouter.post('/user/payment',AuthHandler.isUserLogin,async(req,res,next)=>controllers.paymentController.payment(req,res,next))
+paymentRouter.get('/admin/balance', async(req,res,next)=>controllers.companyBalance.getComapanyWalletBalance(req,res,next))
 
 
 

@@ -107,40 +107,95 @@ export class TripRepository {
       .find({ driverId: driverId })
       .sort({ createdAt: -1 })
       .limit(10)
-      .populate({path:'userId',select:'name'})
-      .select("fare pickUpLocation dropOffLocation distance")
-      
+      .populate({ path: "userId", select: "name" })
+      .select("fare pickUpLocation dropOffLocation distance");
   }
   async topRidersBooking(driverId) {
-    const data =  await tripModel.aggregate([
+    const data = await tripModel.aggregate([
       { $match: { driverId: new mongoose.Types.ObjectId(driverId) } },
       { $group: { _id: "$userId", topRiders: { $sum: 1 } } },
       { $sort: { topRiders: -1 } },
       { $limit: 6 },
       {
-        
-          $lookup: {
-            from: 'users', 
-            localField: '_id', 
-            foreignField: '_id', 
-            as: 'userDetails'
-          }
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "_id",
+          as: "userDetails",
+        },
       },
       {
-        $unwind:'$userDetails'
+        $unwind: "$userDetails",
+      },
+      {
+        $project: {
+          topRiders: 1,
+          userName: "$userDetails.name",
+        },
+      },
+    ]);
+    return data;
+  }
+  async completedTripCount(driverId) {
+    return await tripModel
+      .find({ driverId: driverId, tripStatus: "completed" })
+      .countDocuments();
+  }
+
+  async getAllLatestTrips() {
+    return await tripModel
+      .find({ tripStatus: "completed" })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .populate({ path: "userId", select: "name" })
+      .populate({path:"driverId",select:"name"})
+      .select("fare pickUpLocation dropOffLocation distance");
+  }
+
+  async highActiveDrivers() {
+    return await tripModel.aggregate([
+      {
+        $match: {
+          tripStatus: "completed",
+        },
+      },
+      {
+        $group: {
+          _id: "$driverId",
+          totalTripsCompleted: { $sum: 1 },
+        },
+      },
+      {
+        $sort: {
+          totalTripsCompleted: -1,
+        },
+      },
+      {
+        $limit: 5,
+      },
+      {
+        $lookup: {
+          from: "drivers",
+          localField: "_id",
+          foreignField: "_id",
+          as: "driverDetails",
+        },
+      },
+      {
+        $unwind:'$driverDetails'
       },
       {
         $project:{
-          topRiders:1,
-          'userName':'$userDetails.name'
+          completedTrips: "$totalTripsCompleted",  
+          name: "$driverDetails.name",
+          email: "$driverDetails.email",
+          phone: "$driverDetails.phone",
+          licenseNumber: "$driverDetails.license_Number",
         }
       }
     ]);
-    return data
-    
   }
-  async completedTripCount(driverId){
-return await tripModel.find({driverId:driverId,tripStatus:'completed'}).countDocuments()
+  async getTotalTripsCompletedCount(){
+    return await tripModel.find({tripStatus:"completed"}).countDocuments()
   }
-  
 }

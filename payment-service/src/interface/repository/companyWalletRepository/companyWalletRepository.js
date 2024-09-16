@@ -11,4 +11,7 @@ export class CompanyWalletRepository{
             _id:'company_wallet'
         })
     }
+    async getCompanyBalance(){
+        return await companyWalletModel.findById({_id:'company_wallet'},{balance:1})
+    }
 }

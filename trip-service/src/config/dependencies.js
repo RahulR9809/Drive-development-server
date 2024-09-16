@@ -23,7 +23,10 @@ import {
   GetTripHistoryUseCase,
   TopTripUseCase,
   CompletedTripCountUseCase,
-  GetLatestTripsUseCase
+  GetLatestTripsUseCase,
+  GetAllLatestTripsUseCase,
+  MostActiveDriverUseCase,
+  TotalTripsCountUseCase
   
 } from "../usecase/index.js";
 import { 
@@ -57,7 +60,10 @@ const useCase = {
   GetTripHistoryUseCase,
   TopTripUseCase,
   CompletedTripCountUseCase,
-  GetLatestTripsUseCase
+  GetLatestTripsUseCase,
+  GetAllLatestTripsUseCase,
+  MostActiveDriverUseCase,
+  TotalTripsCountUseCase
 };
 
 const repository = {

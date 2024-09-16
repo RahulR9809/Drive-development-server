@@ -17,6 +17,7 @@ import {
   GetWalletHistoryUseCase,
   GetDriverWalletDetailsUseCase,
   GetDriverWalletBalanceUseCase,
+  GetCompanyWalletUseCase
   // GetDriverWalletHistoryUseCase
 } from "../usecase/index.js";
 import { 
@@ -48,7 +49,8 @@ const useCase = {
   GetWalletBalanceUseCase,
   GetWalletHistoryUseCase,
   GetDriverWalletDetailsUseCase,
-  GetDriverWalletBalanceUseCase
+  GetDriverWalletBalanceUseCase,
+  GetCompanyWalletUseCase
   // GetDriverWalletHistoryUseCase
 };
 
