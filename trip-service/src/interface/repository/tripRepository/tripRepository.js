@@ -87,7 +87,7 @@ export class TripRepository {
 
   async findAllTrips(userId, page, limit = 6) {
     try {
-      return await tripModel.find({ userId: userId }).skip(page).limit(limit);
+      return await tripModel.find({ userId: userId }).skip(page).limit(limit).sort({createdAt:-1});
     } catch (error) {
       console.error(error);
     }

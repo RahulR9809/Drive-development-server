@@ -14,7 +14,8 @@ export class AdminRepository {
   async approveProfileUpdateRequest(driverId) {
     return await driverModel.findByIdAndUpdate(
       { _id: driverId },
-      { $set: { editRequest: false, isVerified: true } }
+      { $set: { editRequest: false, isVerified: true } },
+      { new: true }
     );
   }
 }

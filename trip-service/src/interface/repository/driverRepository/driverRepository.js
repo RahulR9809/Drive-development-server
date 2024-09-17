@@ -90,7 +90,7 @@ export class DriverRepository {
     ]);
 
   }
-  async rideRequestToSelectedVehicle(pickupCoordinates, vehicleType) {
+  async rideRequestToSelectedVehicle(pickupCoordinates,vehicleType) {
     try {
       const data = await driverModel.aggregate([
         {

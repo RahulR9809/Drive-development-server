@@ -85,8 +85,7 @@ export class RideRequestUseCase {
       pickUpCoords, 
       vehicleType
     );
-
-    
+    console.log('nearest',nearestDrivers);
     nearestDrivers.forEach(driver => this.requestQueue.enqueue(driver._id));
     console.log("Queue:", this.requestQueue.print());
 

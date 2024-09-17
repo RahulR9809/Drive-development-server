@@ -12,6 +12,8 @@ export class DriverApprovalUseCase {
         _id:approveDriver._id,
         isAccepted:approveDriver.isAccepted
       }
+      console.log('dataToPubleish',dataToPublish);
+      
       this.kafka.produceMessage(TOPIC,{
         type:DRIVER_UPDATED,
         value:JSON.stringify(dataToPublish)
