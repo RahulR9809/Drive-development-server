@@ -1,13 +1,14 @@
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import { TRIP_SERVICE } from "../../../config/constants/proxyTarget.js";
+import { PAYMENT_SERVICE } from "../../../config/constants/proxyTarget.js";
 
 const paymentRouter = express.Router();
 
+// proxing the request from gateway to payment-service
 paymentRouter.use(createProxyMiddleware({
-    target:'http://localhost:3005/payment',
-    changeOrigin: true,
+    target:PAYMENT_SERVICE,
+    // changeOrigin: true,
   })
 );
 
-export { paymentRouter};
+export default paymentRouter;

@@ -1,13 +1,14 @@
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import { TRIP_SERVICE } from "../../../config/constants/proxyTarget.js";
+import { CHAT_SERVICE } from "../../../config/constants/proxyTarget.js";
 
 const chatRouter = express.Router();
 
+// proxing the request from gateway to chat-service
 chatRouter.use(createProxyMiddleware({
-    target:'http://localhost:3004/chat',
-    changeOrigin: true,
+    target: CHAT_SERVICE,
+    // changeOrigin: true,
   })
 );
 
-export { chatRouter};
+export default chatRouter;

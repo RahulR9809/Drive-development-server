@@ -4,10 +4,11 @@ import { TRIP_SERVICE } from "../../../config/constants/proxyTarget.js";
 
 const tripRouter = express.Router();
 
+// proxing the request from gateway to trip-service
 tripRouter.use(createProxyMiddleware({
-    target:'http://localhost:3003/trip',
-    changeOrigin: true,
+    target:TRIP_SERVICE,
+    // changeOrigin: true,
   })
 );
 
-export { tripRouter };
+export default tripRouter ;

@@ -1,2 +1,5 @@
 export const AUTH_SERVICE = 'http://localhost:3002/auth'
 export const TRIP_SERVICE = 'http://localhost:3003/trip'
+export const CHAT_SERVICE = 'http://localhost:3004/chat'
+export const PAYMENT_SERVICE = 'http://localhost:3005/payment'
+export const CORS_ORIGIN = 'http://localhost:3000'

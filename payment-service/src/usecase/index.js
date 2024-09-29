@@ -18,6 +18,8 @@ import { GetDriverWalletBalanceUseCase } from "./paymentUseCase/getDriverWalletB
 import { GetDriverWalletHistoryUseCase } from "./paymentUseCase/getDriverWalletHistoryUseCase.js";
 import { GetDriverWalletDetailsUseCase } from "./paymentUseCase/getDriverWalletDetailsUseCase.js";
 import { GetCompanyWalletUseCase } from "./paymentUseCase/getCompanyBalanceUseCase.js";
+import { TripReportUseCase } from "./tripUseCase/tripReportUseCase.js";
+import { DownloadTripReportUseCase } from "./tripUseCase/downloadTripReportUseCase.js";
 export {
     UserCreatedConsumerUseCase,
     UserUpdateUseCase,
@@ -38,5 +40,7 @@ export {
     GetDriverWalletBalanceUseCase,
     GetDriverWalletHistoryUseCase,
     GetDriverWalletDetailsUseCase,
-    GetCompanyWalletUseCase
+    GetCompanyWalletUseCase,
+    TripReportUseCase,
+    DownloadTripReportUseCase
 }
