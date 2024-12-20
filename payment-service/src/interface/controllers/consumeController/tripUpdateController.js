@@ -1,6 +1,6 @@
 export class TripUpdateConsumerController{
     constructor(dependencies){
-      console.log(dependencies);
+      
       
       this.tripCreateUseCase = new dependencies.useCase.TripUpdateUseCase(dependencies)
   }

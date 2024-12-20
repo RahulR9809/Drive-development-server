@@ -23,6 +23,7 @@ export class KafkaClient {
       await this.producer.disconnect()
     } catch (error) {
       console.error(error);
+      throw error
     }
   }
 

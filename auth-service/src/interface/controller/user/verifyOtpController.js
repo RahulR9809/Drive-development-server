@@ -1,3 +1,5 @@
+import { request } from "express";
+
 export class VerifyOtpController {
   constructor(dependencies) {
     this.verifyAuthUseCase = new dependencies.useCase.VerifyOtpUseCase(
@@ -13,6 +15,7 @@ export class VerifyOtpController {
         error.message = "Otp Error";
         throw error;
       }
+      console.log(req.session)
       const { data, accessToken, refreshToken } =
         await this.verifyAuthUseCase.execute(req.session, otp);
       res.cookie("userRefreshToken", refreshToken, {

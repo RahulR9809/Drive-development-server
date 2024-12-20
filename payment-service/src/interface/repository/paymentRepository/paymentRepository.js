@@ -7,14 +7,29 @@ export class PaymentRepository {
         tripId: data?.tripId,
         userId: data?.userId,
         fare: data?.fare,
-        paymentMethod: data?.paymentMethod,
-        paymentStatus: "paid",
+        paymentMethod: data?.paymentMethod
       });
+      
     } catch (error) {
       console.error(error);
+      throw error
     }
   }
-  async findPaymentByTrip_Update(id, data) {
-    return await paymentModel.findOneAndUpdate({ tripId: id }, { $set: data },{new:true})
+  async findTripAndUpdate(id, data) {
+    try {
+    return await paymentModel.findOneAndUpdate({ tripId: id }, { $set: data },{new:true}).lean()
+    } catch (error) {
+      console.error(error);
+      throw error
+      
+    }
+  }
+  async findPaymentDetailsByTripById(tripId){
+    try {
+      return await paymentModel.findOne({tripId:tripId})
+    } catch (error) { 
+      console.error('err',error);  
+      throw error
+    }
   }
 }

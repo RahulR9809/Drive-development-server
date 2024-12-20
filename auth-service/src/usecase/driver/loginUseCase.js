@@ -27,13 +27,13 @@ export class DriverLoginUseCase {
               });
               const awsS3Config = new S3Config()
  
-              const uploadedImgArr = [{imgField:'profileImg',Key:existingUser?.profileImg},{imgField:'licenseImg',Key:existingUser?.license_Img},{imgField:'permitImg',Key:existingUser?.permit}]
+              const uploadedImgArr = [{imgField:'profileImg',Key:existingUser?.profileImg},{imgField:'licenseImg',Key:existingUser?.license_Img},{imgField:'permitImg',Key:existingUser?.vehicleDetails.permit}]
+              console.log('uploadimagear',uploadedImgArr)
               const filteredUploadedImg = uploadedImgArr.filter((img)=>img.Key != undefined)
               console.log(filteredUploadedImg);
               const imgUploads = await Promise.all(filteredUploadedImg.map((img)=>{
                 return awsS3Config.getImageUrl(img)
               }))
-              
               const imgUrlsFromS3 = {}
               for(const img of imgUploads){
                  if(img.key == 'profileImg'){
@@ -41,9 +41,12 @@ export class DriverLoginUseCase {
                  }else if(img.key == 'licenseImg'){
                      imgUrlsFromS3['licenseImg'] = img.url
                  }else if(img.key == 'permitImg'){
+                  console.log('image url',img.url)
                      imgUrlsFromS3['permitImg'] = img.url
                  }
               }
+              // console.log('image permit',imgUrlsFromS3.permitImg)
+
               const data = {
                 id: existingUser?._id,
                 name: existingUser?.name,

@@ -27,7 +27,7 @@ const controllers = {
 //POST request for Login
 //type params represents (google Login, email Login)
 // this route uses the login userLoginCotroller from managing user Login
-userRouter.post('/login/:type',async (req, res,next) => controllers.userLoginController.userLogin(req,res,next));
+userRouter.post('/login/:type',(req,res,next)=>{console.log('insied');next()},async (req, res,next) => controllers.userLoginController.userLogin(req,res,next));
 userRouter.post('/verify-otp',async (req, res,next) => controllers.VerifyOtpController.verifyOtp(req,res,next));
 userRouter.post('/resend-otp',async(req,res,next)=>controllers.ResendOtpController.resendOtp(req,res,next))
 userRouter.get('/refreshToken',async(req,res,next)=>controllers.refreshTokenController.refreshUserToken(req,res,next))

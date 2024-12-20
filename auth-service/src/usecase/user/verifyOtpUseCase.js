@@ -12,6 +12,8 @@ export class VerifyOtpUseCase {
     try {
       const awsS3Config = new S3Config();
      
+      console.log("Received session:", session);
+      console.log("OTP entered:", otpEntered);
       
       if (!session) {
         const error = new Error();
@@ -19,7 +21,10 @@ export class VerifyOtpUseCase {
         error.message = "Otp Expired";
         throw error;
       }
+      console.log("session",session)
+      
       const { userId, otp } = session;
+
       if(!userId || !otp){
         const error = new Error()
         error.status = 400

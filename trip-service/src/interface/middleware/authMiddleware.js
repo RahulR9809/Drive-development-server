@@ -26,6 +26,8 @@ export class AuthHandler {
         throw error;
       }
       const decodeToken = await verifyAccessToken(userAccessToken);
+      console.log('userToken',decodeToken);
+      
       if (!decodeToken) {
         const error = new Error();
         error.message = "Token is not Valid";
@@ -57,7 +59,7 @@ export class AuthHandler {
   static async isDriverLogin(req, res, next) {
     try {
       console.log('hi');
-      console.log(req.body);
+     
       
       
       const driverRepository = new MongoDriverRepository();
@@ -70,6 +72,8 @@ export class AuthHandler {
       const header =
         req.headers["Authorization"] || req.headers["authorization"];
       const driverAccessToken = header.split(" ")[1];
+      console.log('driverAccessToken',driverAccessToken);
+      
       if (!driverAccessToken) {
         const error = new Error();
         error.message = "No Token";

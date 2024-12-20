@@ -6,7 +6,7 @@ const authRouter = express.Router();
 
 // proxing the request from gateway to auth-service
 authRouter.use(createProxyMiddleware({
-    target: AUTH_SERVICE,
+    target: 'http://localhost:3002/auth',
     // changeOrigin: true,
   })
 );

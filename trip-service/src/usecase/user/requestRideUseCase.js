@@ -85,6 +85,8 @@ export class RideRequestUseCase {
       pickUpCoords, 
       vehicleType
     );
+    console.log("Vehicle Type Received:", vehicleType);
+
     console.log('nearest',nearestDrivers);
     nearestDrivers.forEach(driver => this.requestQueue.enqueue(driver._id));
     console.log("Queue:", this.requestQueue.print());
@@ -101,7 +103,7 @@ export class RideRequestUseCase {
 
      
       notifyDriver("ride-request", createTrip, driverId);
-
+console.log('this is the socket driver id',driverId);
      
       const handleDriverResponse = async () => {
         try {

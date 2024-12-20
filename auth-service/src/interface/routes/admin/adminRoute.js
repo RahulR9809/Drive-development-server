@@ -29,14 +29,15 @@ const controllers = {
   ),
   getAllUsersController: new GetAllUserController(dependencies),
   adminRefreshTokenController: new AdminRefreshTokenController(dependencies),
-  newUsersReportController: new NewlyEnrolledUserController(dependencies)
-  
+  newUsersReportController: new NewlyEnrolledUserController(dependencies),
 };
 
 adminRouter.post("/login", async (req, res, next) =>
   controllers.loginController.login(req, res, next)
 );
-adminRouter.get('/refreshToken',async(req,res,next)=>controllers.adminRefreshTokenController.refreshUserToken(req,res,next))
+adminRouter.get("/refreshToken", async (req, res, next) =>
+  controllers.adminRefreshTokenController.refreshUserToken(req, res, next)
+);
 
 adminRouter.get(
   "/getAllDrivers",
@@ -92,7 +93,11 @@ adminRouter.get(
   async (req, res, next) =>
     controllers.getAllUsersController.getAllUsers(req, res, next)
 );
-adminRouter.get('/dashboard/newusers/:filter',AuthHandler.isAdminLogin,async(req,res,next)=>controllers.newUsersReportController.newlyEnrolledUsers(req,res,next))
-
+adminRouter.get(
+  "/dashboard/newusers/:filter",
+  AuthHandler.isAdminLogin,
+  async (req, res, next) =>
+    controllers.newUsersReportController.newlyEnrolledUsers(req, res, next)
+);
 
 export default adminRouter;

@@ -22,6 +22,7 @@ export class GetDriverOnlineController {
       res.status(201).json({ data });
     } catch (error) {
       console.error(error);
+      next(error)
     }
   }
 }

@@ -97,7 +97,7 @@ export class DriverRepository {
           $geoNear: {
             near: {
               type: "Point",
-              coordinates: [pickupCoordinates[0], pickupCoordinates[1]],
+              coordinates: [pickupCoordinates[1],pickupCoordinates[0]],
             },
             distanceField: "dist.calculated",
             maxDistance: 8000,

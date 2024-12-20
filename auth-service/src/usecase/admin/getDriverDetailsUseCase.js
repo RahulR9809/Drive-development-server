@@ -7,10 +7,13 @@ async execute(id){
     try {
  const driverDetails = await this.driverRepository.findDriverbyId(id)
  const awsS3Config = new S3Config()
+
  console.log('drievrProfileImg',driverDetails?.profileImg)
  console.log('license',driverDetails?.license_Img)
 
- const uploadedImgArr = [{imgField:'profileImg',Key:driverDetails?.profileImg},{imgField:'licenseImg',Key:driverDetails?.license_Img},{imgField:'permitImg',Key:driverDetails?.permit}]
+ const uploadedImgArr = [{imgField:'profileImg',Key:driverDetails?.profileImg},
+    {imgField:'licenseImg',Key:driverDetails?.license_Img},
+    { imgField: 'permitImg', Key: driverDetails?.vehicleDetails?.permit }]
  const filteredUploadedImg = uploadedImgArr.filter((img)=>img.Key != undefined)
  console.log(filteredUploadedImg);
  const imgUploads = await Promise.all(filteredUploadedImg.map((img)=>{
@@ -27,6 +30,7 @@ imgUrlsFromS3['profileImg'] = img.url
         imgUrlsFromS3['permitImg'] = img.url
     }
  }
+ console.log("s3 images:",imgUrlsFromS3)
 return {
     id:driverDetails?._id,
     name:driverDetails?.name,
@@ -37,11 +41,13 @@ return {
     vehicleDetails:{
         vehicle_type:driverDetails?.vehicleDetails?.vehicle_type,
         rc_Number:driverDetails?.vehicleDetails?.rc_Number,
-        permitUrl:driverDetails?.vehicleDetails?.permit
+        // permitUrl:driverDetails?.vehicleDetails?.permit
+        permitUrl:imgUrlsFromS3?.permitImg
+
     },
     isBlocked:driverDetails?.isBlocked,
     isVerified:driverDetails?.isVerified,
-    isProfileCompleted:driverDetails?.isProfileComplete     ,
+    isProfileCompleted:driverDetails?.isProfileComplete,
     isAccepted:driverDetails?.isAccepted,
     editRequest:driverDetails?.editRequest,
     profileUrl:imgUrlsFromS3?.profileImg  
@@ -50,5 +56,7 @@ return {
     } catch (error) {
         console.error(error);
     }
+
 }
+
 }

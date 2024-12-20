@@ -6,7 +6,7 @@ import  tripRouter  from "../interfaces/routes/user/tripRouter.js";
 import  chatRouter  from "../interfaces/routes/user/chatRouter.js";
 import  paymentRouter  from "../interfaces/routes/user/paymentRouter.js";
 import { CORS_ORIGIN } from "../config/constants/proxyTarget.js";
-
+import morgan from "morgan"
 configDotenv();
 
 //configuring the Express Server
@@ -18,9 +18,10 @@ export const createServer = () => {
       credentials: true,
     })
   );
+  app.use(morgan("dev"))
   app.use("/api/auth", authRouter);
   app.use("/api/trip", tripRouter);
-  app.use("/api/chat", chatRouter);
+  app.use("/api/chat",(req,res,next)=>{console.log('chat router');next()} ,chatRouter);
   app.use("/api/payment", paymentRouter);
   return app;
 };

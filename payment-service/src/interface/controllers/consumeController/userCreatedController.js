@@ -1,6 +1,6 @@
 export class UserCreatedConsumeController{
       constructor(dependencies){
-        console.log(dependencies);
+        
         
         this.userUseCase = new dependencies.useCase.UserCreatedConsumerUseCase(dependencies)
     }

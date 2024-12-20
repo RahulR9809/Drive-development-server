@@ -6,7 +6,7 @@ const chatRouter = express.Router();
 
 // proxing the request from gateway to chat-service
 chatRouter.use(createProxyMiddleware({
-    target: CHAT_SERVICE,
+    target: 'http://localhost:3004/chat',
     // changeOrigin: true,
   })
 );

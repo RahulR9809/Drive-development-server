@@ -7,11 +7,16 @@ export const socketConnection = async (httpServer) => {
   try {
     io = new Server(httpServer, {
       cors: {
-        origin: ["http://localhost:3001", "http://localhost:3000"],
+        origin: ["http://localhost:3001", "http://localhost:3003",'*'],
+                // origin: '*',
+
+        credentials:true
       },
     });
     io.on("connection", (socket) => {
       console.log('connected to the soccket server successFully');
+
+      
       socket.on("driver-connected", (driverId) => {
         driverAndSocketId.set(driverId, socket.id);
         console.log("driver-socket-connected",driverId,socket.id);
@@ -22,6 +27,7 @@ export const socketConnection = async (httpServer) => {
         userAndSocketId.set(userId, socket.id);
         
       });
+      
       socket.on("location-update", (data) => {
         const userIdToString = data?.userId.toString();
         socket.to(userAndSocketId.get(userIdToString)).emit("live-location", data);
@@ -46,6 +52,7 @@ export const socketConnection = async (httpServer) => {
 export const notifyDriver = (event, notification, driverId) => {
   const driverIdToString = driverId.toString();
   io.to(driverAndSocketId.get(driverIdToString)).emit(event, notification);
+  
   return;
 };
 

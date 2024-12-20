@@ -7,6 +7,7 @@ export class DriverRepository {
       return driver.save();
     } catch (error) {
       console.error(error);
+      throw error
     }
   }
   async findDriverbyId(id) {
@@ -14,6 +15,7 @@ export class DriverRepository {
       return await driverModel.findById({ _id: id }, { password: 0 });
     } catch (error) {
       console.error(error);
+      throw error
     }
   }
   async findDriverByEmail(email) {

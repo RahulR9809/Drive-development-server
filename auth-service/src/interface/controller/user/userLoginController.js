@@ -12,6 +12,8 @@ export class UserLoginController {
       const { type } = req.params;
       if (type === "google") {
         const { token } = req.body;
+        console.log('token',token);
+        
         if (!token) {
           const error = new Error();
           error.status = 400;

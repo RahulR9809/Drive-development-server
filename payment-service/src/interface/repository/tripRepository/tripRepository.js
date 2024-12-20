@@ -5,11 +5,14 @@ export class TripRepository {
     return await tripModel.create(data);
   }
   async findTripById(id) {
+    try {
     return await tripModel.findById({ _id: id }).populate('userId').populate('driverId')
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
   }
   async findTripByIdAndUpdate(id, data) {
-    console.log('inside repo',id,data);
-    
     return await tripModel.findByIdAndUpdate({ _id: id }, { $set: data },{new:true}).populate('driverId')
     
   }
@@ -74,5 +77,13 @@ export class TripRepository {
   
   
   
+  }
+  async findTripsById(id) {
+    try {
+    return await tripModel.findById({ _id: id }).populate('driverId')
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
   }
 }

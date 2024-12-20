@@ -44,8 +44,6 @@ export class WalletRecordUpates {
         );
         
         let deductUserWalletBalance,userWalletHistory
-        // console.log('papapap',userWalletHistory,deductUserWalletBalance);
-
         if(paymentMethod == 'Wallet'){
            const deductUserWalletPromise =  this.userRepository.deductWalletBalance(userId,{walletBalance:-parsedFare})
            console.log('de',deductUserWalletPromise);
@@ -57,12 +55,10 @@ export class WalletRecordUpates {
                 description:"Money Paid for trip",
                 type:"debit"
             })
-            // console.log('us',userWalletHistoryPromise);
-            
-            // console.log("promiseseses",deductUserWalletPromise,userWalletHistoryPromise);
+
              
              const result = await Promise.all([deductUserWalletPromise,userWalletHistoryPromise])
-            //   [deductUserWalletBalance,userWalletHistory] = result
+
 
         }
 
@@ -72,8 +68,7 @@ export class WalletRecordUpates {
           driverBalanceUpdatePromise,
           companyWalletUpdatePromise,
         ]);
-        console.log("logger1");
-        
+
       return {
         driverWalletHistory,
         driverBalanceUpdate,

@@ -7,7 +7,7 @@ export class adminLogincontroller {
   }
   async login(req, res, next) {
     try {
-      console.log("login");
+    
       const adminDetails = await this.adminLoginUseCase.execute(req.body);
       console.log('admin',adminDetails);
       const data = {

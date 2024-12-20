@@ -10,6 +10,7 @@ export const socketConnection = async (httpServer) => {
         origin: ["http://localhost:3001", "http://localhost:3000"],
       },
     });
+    
     io.on("connection", (socket) => {
       console.log("connectded to chatSocket Server");
       

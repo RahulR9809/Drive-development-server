@@ -16,14 +16,14 @@ export class GetAllDriverControllers {
         const getUsers = await this.getAllDriverUseCase.execute();
         console.log(getUsers);
 
-        res.status(201).json({
+        res.status(200).json({
           driverDetails: getUsers.allDrivers,
           totalPages: getUsers.totalPages,
         });
       } else if (search || page) {
         const getUsers = await this.getAllDriverUseCase.execute(search,page);
         console.log(getUsers);
-        res.status(201).json({
+        res.status(200).json({
           driverDetails: getUsers.allDrivers,
           totalPages: getUsers.totalPages,
         });

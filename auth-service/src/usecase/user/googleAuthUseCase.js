@@ -18,8 +18,13 @@ export class GoogleAuthUseCase {
           },
         }
       );
+
       const { email, email_verified, name } = googleAuthResponse.data;
+      console.log('level1');
+      
       const isUserExist = await this.userRepository.findUserByEmail(email);
+      console.log('level2',isUserExist);
+
       let data;
       if (isUserExist) {
         if (isUserExist.isBlocked) {
@@ -38,6 +43,8 @@ export class GoogleAuthUseCase {
           isProfileComplete: isUserExist.isProfileComplete,
         };
       } else {
+        console.log('inside else ');
+        
         const userDataToInsert = {
           name,
           email,
@@ -54,6 +61,8 @@ export class GoogleAuthUseCase {
         const userCreated = await this.userRepository.createUser(
           userDataToInsert
         );
+        console.log('usercreated',userCreated);
+        
         data = {
           id: userCreated._id,
           name: userCreated.name,
@@ -63,8 +72,11 @@ export class GoogleAuthUseCase {
           isVerified: userCreated.isVerified,
           isProfileComplete: userCreated.isProfileComplete,
         };
+        console.log(userCreated);
+        
         const userDatatoPublish = {
           _id:userCreated._id,
+          name:userCreated.name,
           email: userCreated.email,
           phone: userCreated.phone,
           isBlocked: userCreated.isBlocked,
@@ -74,6 +86,8 @@ export class GoogleAuthUseCase {
           createdAt:userCreated.createdAt,
           profileImg:userCreated.profileImg
         }
+        console.log('userdatat===========>',userDatatoPublish);
+        
         this.kafka.produceMessage(TOPIC,{
           type:USER_CREATED,
           value: JSON.stringify(userDatatoPublish)

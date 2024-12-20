@@ -5,9 +5,9 @@ export const dbConnect = async()=>{
         const mongoString = process.env.MONGO_STRING
       const connection =   await mongoose.connect(mongoString)
       if(connection){
-        console.log('Db connected Succesfully')
+        console.log('Db connected Sucscesfullly')
       }
     } catch (error) {
-        console.error(error);
+        console.error(error);  
     }
 }

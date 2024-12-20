@@ -8,7 +8,12 @@ export class UserRepository {
     return await userModel.findOne({ email: email });
   }
   async findUserById(id) {
+    try {
     return await userModel.findById({ _id: id });
+      
+    } catch (error) {
+      throw error
+    }
   }
   async findByIdUpdate(id, dataToUpdate) {
     return await userModel
@@ -39,7 +44,13 @@ try {
     }
   }
   async updateWalletBalance (userId,data){
+    try {
     return await userModel.findByIdAndUpdate({_id:userId},{$inc:data})
+    } catch (error) {
+      console.error(error);
+      throw error
+      
+    }
   }
   async deductWalletBalance(userId,data){
     console.log("inDedductddbbdbdbdb",userId,data);

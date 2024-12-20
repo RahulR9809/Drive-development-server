@@ -46,6 +46,7 @@ export class EmailAuthUseCase {
       const otp = generateOTP()
        await sendMail(otp, email);
        console.log('otp=====',otp);
+       console.log("aaaaaaaaaaa",userId,otp)
       return {
         userId,
         otp,
