@@ -8,6 +8,5 @@ export const verifyAccessToken = async (data) => {
       return verifyToken;
     } catch (error) {
       console.error(error);
-      throw error
     }
   };

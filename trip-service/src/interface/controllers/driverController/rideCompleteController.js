@@ -5,12 +5,8 @@ export class RideCompleteController {
     );
   }
   async completeRide(req, res, next) {
-    console.log("complete Ride ")
+
     const { tripId,userId } = req.body;
-    console.log("iddddddddddddddddd,",tripId,userId);
-    
-    console.log("inside the rideeeeeeeeeeeeeeeeeeeee"); 
-    
   const updateRideStatus_CompleteRide =    await this.rideCompleteUseCase.execute(tripId,userId);
   console.log("ridecompletecontroller");
   

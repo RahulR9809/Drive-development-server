@@ -4,11 +4,20 @@ export class GetMessageController{
     }
     async getMessage(req,res,next){
         try {
-            const {userId} = req.params
-          const messages =   await this.getMessageUseCase.execute(userId)
-          res.status(201).json({messages})
+            const {tripId} = req.params
+            console.log(tripId)
+            if(!tripId){
+                const error = new Error()
+                error.message = 'Bad Request'
+                error.status = 400
+                throw error
+            }
+          const messageData =   await this.getMessageUseCase.execute(tripId)
+          console.log('messsageData',messageData);
+          res.status(201).json({messages:messageData?.messages,userName:messageData?.userName,driverName:messageData?.driverName})
         } catch (error) {
             console.error(error)
+            next(error)
         }
     }
 }

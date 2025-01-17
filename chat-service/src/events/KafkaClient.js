@@ -3,8 +3,10 @@ import { consumeManager } from "./consumeMessages.js";
 export class KafkaClient {
   constructor() {
     this.kafka = new Kafka({
-      clientId: "trip-service",
-      brokers: ["127.0.0.1:9092"],
+      clientId: "chat-service",
+      brokers: [
+        "127.0.0.1:9092" 
+      ],
     });
     this.producer = this.kafka.producer();
     this.consumer = this.kafka.consumer({ groupId: "chat-service" });
@@ -13,6 +15,8 @@ export class KafkaClient {
   async produceMessage(topic,messages) {
     try {
       await this.producer.connect();
+      console.log('connected to cluster');
+      
       await this.producer.send({
         topic: topic,
         messages: [ 
@@ -36,11 +40,12 @@ export class KafkaClient {
         throw new Error('Cannot Connect To Topic')
       }
         await this.consumer.connect()
+        // console.log('connected to kafka cluster succe======================>')
         await this.consumer.subscribe({ topics: topics, fromBeginning: true })
         await this.consumer.run({
             eachMessage: async ({ topic, partition, message }) => {
               const data = JSON.parse(message?.value?.toString())
-              console.log(data);
+              // console.log(data); 
               await this.manager.consumer(data)
             }, 
           })

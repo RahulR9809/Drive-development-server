@@ -2,11 +2,7 @@ import express from "express";
 import http from 'http'
 import cookieParser from "cookie-parser";
 import  chatRouter from '../interface/routes/chatRouter.js'
-// import session from "express-session";
-// import userRouter from '../interface/routes/user/userRoute.js'
-// import driverRouter from "../interface/routes/driver/driverRoute.js";
-
-
+import { ErrorHandling } from "../interface/middleware/errorHandlingMiddleware.js";
 
 const createServer = () => {
   const app = express();
@@ -14,13 +10,8 @@ const createServer = () => {
   app.use(cookieParser())
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-console.log('in the server');
-
   app.use('/chat',chatRouter)
- 
-  
-
-//   app.use(ErrorHandling.errorHandler);
+  app.use(ErrorHandling.errorHandler)
   return httpServer;
 };
 

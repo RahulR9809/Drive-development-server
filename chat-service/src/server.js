@@ -6,7 +6,7 @@ const PORT = process.env.PORT
 
 const startServer = ()=>{
     try {
-        app.listen(PORT,()=>console.log('chat server started at PORT 3004'))
+        app.listen(PORT,()=>console.log('Chat server started at',PORT))
     } catch (error) {
         console.error(error);
     }

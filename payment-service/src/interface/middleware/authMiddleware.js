@@ -41,12 +41,12 @@ export class AuthHandler {
       const isUservalid = await userRepository.findUserById(decodeToken.id);
       console.log('isUserValid',isUservalid);
   
-      if (!isUservalid || isUservalid.isBlocked) {
-        const error = new Error();
-        error.status = 403;
-        error.message = "Your Account has been Blocked temporarily";
-        throw error
-      }
+      // if (!isUservalid || isUservalid.isBlocked) {
+      //   const error = new Error();
+      //   error.status = 403;
+      //   error.message = "Your Account has been Blocked temporarily";
+      //   throw error
+      // }
 
       next();
     } catch (error) {

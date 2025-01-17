@@ -7,6 +7,7 @@ export class PaymentController {
   }
   async payment(req, res, next) {
     try {
+      console.log('dfsfssaf,',req.body)
       const { userId, tripId, driverId, paymentMethod, fare } = req.body;
       if (!userId || !tripId || !driverId || !paymentMethod || !fare) {
         const error = new Error();
@@ -16,8 +17,9 @@ export class PaymentController {
       }
       if (paymentMethod === "Online-Payment") {
         const initiateOnlinePayment = await this.stripePaymentUseCase.execute(req.body);
-        // res.status(200).json({success: true,payment: initiateOnlinePayment?.stripeSession,paymentStatus: "paid"});
-        res.status(200).json({success: true,payment: initiateOnlinePayment?.stripeSession,paymentStatus:"pending"});
+        console.log('yooooooooo',initiateOnlinePayment)
+        res.status(200).json({success: true,payment: initiateOnlinePayment?.stripeSession,paymentStatus: "paid"});
+        // res.status(200).json({success: true,payment: initiateOnlinePayment?.stripeSession,paymentStatus:"pending"});
 
       } else if (paymentMethod === "Wallet") {
          await this.walletPaymentUseCase.execute(req.body)

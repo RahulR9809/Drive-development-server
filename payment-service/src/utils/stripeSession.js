@@ -12,8 +12,10 @@ export const createStripeSession = async (email, tripId, pickUpLocation, dropOff
         return await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
-            success_url: `https://drivee.online/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: "https://drivee.online/payment-failure?session_id=${CHECKOUT_SESSION_ID}",
+            success_url: "http://10.0.2.2:3005/payment-success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url: "http://10.0.2.2:3005/payment-failure?session_id={CHECKOUT_SESSION_ID}",
+
+ 
             customer_email: email,
             client_reference_id: tripId,
             line_items: [{
@@ -35,8 +37,12 @@ export const createStripeSession = async (email, tripId, pickUpLocation, dropOff
 
 export const retrieveSessionData = async (sessionId) => {
     try {
+        
         console.log('Retrieving session data...'); 
-        return await stripe.checkout.sessions.retrieve(sessionId);
+
+        let res = await stripe.checkout.sessions.retrieve(sessionId);
+        console.log('what the fuck,',res);
+        return res;
     } catch (error) {
         console.error('Error retrieving session data:', error);
         throw error;

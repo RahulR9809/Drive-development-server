@@ -17,6 +17,9 @@ export class ConfirmStripePaymentController{
             throw error
         }
       const stripeSession =   await retrieveSessionData(sessionId)
+      console.log('this is the stripesession',stripeSession)
+      console.log('stipe session payment status',stripeSession.payment_status)
+
       if(stripeSession.payment_status === "paid"){
         await this.confirmStripePaymentUseCase.execute(userId,tripId,driverId,paymentMethod,fare)
         res.status(201).json({success:true,paymentStatus:"paid"})

@@ -43,8 +43,6 @@ export class CompleteRideUseCase {
 
 
       userNotify('ride-complete',{fare:completeRide?.fare,distance:completeRide?.distance,duration:completeRide?.duration,isPaymentComplete:completeRide?.isPaymentComplete},userId)
-      
-
       return completeRide
     } catch (error) {
         console.error(error)
