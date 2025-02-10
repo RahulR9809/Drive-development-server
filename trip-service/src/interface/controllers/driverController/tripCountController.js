@@ -16,7 +16,7 @@ export class TripCountController{
           const getTripCountForChart =   await this.tripCountUseCase.execute(driverId,filter)
           res.status(201).json({tripStat:getTripCountForChart})
 
-        } catch (error) {
+        } catch (error) { 
             
         }
        

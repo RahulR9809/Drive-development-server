@@ -16,9 +16,9 @@ const createServer = () => {
   app.use(express.json());
 
 
-    app.use('/api/payment/user',userRouter)
-    app.use('/api/payment/driver',driverRouter)
-    app.use('/api/payment/admin',adminRouter)
+    app.use('/payment/user',userRouter)
+    app.use('/payment/driver',driverRouter)
+    app.use('/payment/admin',adminRouter)
     app.use(ErrorHandling.errorHandler)
 
   return app

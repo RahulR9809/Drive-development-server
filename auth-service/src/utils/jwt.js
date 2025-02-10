@@ -9,6 +9,7 @@ export const createAccessToken = async (data) => {
         expiresIn: "2d",
       }
     );
+    console.log('acceessToken',accessToken)
     return accessToken;
   } catch (error) {
     console.error(error);
@@ -23,6 +24,8 @@ export const verifyAccessToken = async (data) => {
       data,
       process.env.JWT_ACCESSTOKEN_SECRET || 'jhssdhkjasdhask' 
     );
+    console.log("toke",verifyAccessToken);
+    
     return verifyToken;
   } catch (error) {
     console.log("not working")

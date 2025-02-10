@@ -85,9 +85,33 @@ export class TripRepository {
     }
   }
 
-  async findAllTrips(userId, page, limit = 6) {
+  async findAllTrips(userId) {
     try {
-      return await tripModel.find({ userId: userId }).skip(page).limit(limit).sort({createdAt:-1});
+      console.log("userID", userId);
+
+      return await tripModel.find({ userId: userId }).sort({ createdAt: -1 });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async findAllTripsOfUsers(userId) {
+    try {
+      console.log("userID", userId);
+      console.log("indifr ");
+
+      return await tripModel.aggregate([
+        { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+        {
+          $lookup: {
+            from: "drivers",
+            localField: "driverId",
+            foreignField: "_id",
+            as: "driverDetails",
+          },
+        },
+        { $sort: { createdAt: -1 } },
+      ]);
     } catch (error) {
       console.error(error);
     }
@@ -148,7 +172,7 @@ export class TripRepository {
       .sort({ createdAt: -1 })
       .limit(10)
       .populate({ path: "userId", select: "name" })
-      .populate({path:"driverId",select:"name"})
+      .populate({ path: "driverId", select: "name" })
       .select("fare pickUpLocation dropOffLocation distance");
   }
 
@@ -182,20 +206,40 @@ export class TripRepository {
         },
       },
       {
-        $unwind:'$driverDetails'
+        $unwind: "$driverDetails",
       },
       {
-        $project:{
-          completedTrips: "$totalTripsCompleted",  
+        $project: {
+          completedTrips: "$totalTripsCompleted",
           name: "$driverDetails.name",
           email: "$driverDetails.email",
           phone: "$driverDetails.phone",
           licenseNumber: "$driverDetails.license_Number",
-        }
-      }
+        },
+      },
     ]);
   }
-  async getTotalTripsCompletedCount(){
-    return await tripModel.find({tripStatus:"completed"}).countDocuments()
+  async getTotalTripsCompletedCount() {
+    return await tripModel.find({ tripStatus: "completed" }).countDocuments();
+  }
+
+  async getTripsByDriverId(driverId) {
+    try {
+      return await tripModel
+        .find({ driverId: driverId })
+        .sort({ createdAt: -1 });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getDriversTotalTripCount(driverId) {
+    try {
+      return await tripModel.countDocuments({ driverId: driverId });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 }

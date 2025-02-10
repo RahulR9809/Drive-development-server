@@ -4,7 +4,7 @@ export class GetTripHistoryUseCase{
     }
     async execute(userId){
         try {
-          const getTripHistoryByUserId  =   await this.tripRepository.findAllTrips(userId)
+          const getTripHistoryByUserId  =   await this.tripRepository.findAllTripsOfUsers(userId)
           const getTripCountPerUser = await this.tripRepository.findTripCountPerUser(userId)
           return {
             getTripHistoryByUserId,

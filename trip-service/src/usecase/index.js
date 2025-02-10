@@ -24,6 +24,7 @@ import { GetTripHistoryUseCase } from "./user/getTripHistoryUseCase.js";
 import { TopTripUseCase } from "./driver/topTripUseCase.js";
 import { CompletedTripCountUseCase } from "./driver/getCompletedTripCounts.js";
 import { GetLatestTripsUseCase } from "./driver/getLatestTripUseCase.js";
+import { GetAlltripsUseCase } from "./driver/getAllDriverTripsController.js";
 
 import { GetAllLatestTripsUseCase } from "./admin/getAllLatestTripController.js";
 import { MostActiveDriverUseCase } from "./admin/mostActiveDriversUseCase.js";
@@ -54,6 +55,7 @@ export {
     TripCountUseCase,
     GetTripHistoryUseCase,
     TopTripUseCase,
+    GetAlltripsUseCase,
     CompletedTripCountUseCase,
     GetLatestTripsUseCase,
     GetAllLatestTripsUseCase,

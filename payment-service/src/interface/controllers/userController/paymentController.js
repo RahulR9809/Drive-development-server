@@ -18,8 +18,8 @@ export class PaymentController {
       if (paymentMethod === "Online-Payment") {
         const initiateOnlinePayment = await this.stripePaymentUseCase.execute(req.body);
         console.log('yooooooooo',initiateOnlinePayment)
-        res.status(200).json({success: true,payment: initiateOnlinePayment?.stripeSession,paymentStatus: "paid"});
-        // res.status(200).json({success: true,payment: initiateOnlinePayment?.stripeSession,paymentStatus:"pending"});
+        // res.status(200).json({success: true,payment: initiateOnlinePayment?.stripeSession,paymentStatus: "paid"});
+        res.status(200).json({success: true,payment: initiateOnlinePayment?.stripeSession,paymentStatus:"pending"});
 
       } else if (paymentMethod === "Wallet") {
          await this.walletPaymentUseCase.execute(req.body)

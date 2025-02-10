@@ -7,6 +7,8 @@ try {
    return  await this.tripRepository.topTrips(driverId)
 } catch (error) {
     console.error(error)
+    console.error("Error in TopTripUseCase:", error);
+    throw error; 
 }
     }
 }

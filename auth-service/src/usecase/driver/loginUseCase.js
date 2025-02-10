@@ -9,6 +9,8 @@ export class DriverLoginUseCase {
     try {
       const { email, password } = loginData;
       const existingUser = await this.driverRepository.findDriverByEmail(email);
+      console.log("exededfsff", existingUser);
+
       if (existingUser) {
         if (existingUser.isVerified) {
           if (!existingUser.isBlocked) {
@@ -16,34 +18,47 @@ export class DriverLoginUseCase {
               password,
               existingUser.password
             );
+            console.log({ _id: existingUser._id });
+
             if (verifyPassword) {
               const accessToken = await createAccessToken({
-                ...existingUser,
+                _id: existingUser._id,
                 role: "DRIVER",
               });
               const refreshToken = await createRefreshToken({
                 ...existingUser,
                 role: "DRIVER",
               });
-              const awsS3Config = new S3Config()
- 
-              const uploadedImgArr = [{imgField:'profileImg',Key:existingUser?.profileImg},{imgField:'licenseImg',Key:existingUser?.license_Img},{imgField:'permitImg',Key:existingUser?.vehicleDetails.permit}]
-              console.log('uploadimagear',uploadedImgArr)
-              const filteredUploadedImg = uploadedImgArr.filter((img)=>img.Key != undefined)
+              const awsS3Config = new S3Config();
+
+              const uploadedImgArr = [
+                { imgField: "profileImg", Key: existingUser?.profileImg },
+                { imgField: "licenseImg", Key: existingUser?.license_Img },
+                {
+                  imgField: "permitImg",
+                  Key: existingUser?.vehicleDetails.permit,
+                },
+              ];
+              console.log("uploadimagear", uploadedImgArr);
+              const filteredUploadedImg = uploadedImgArr.filter(
+                (img) => img.Key != undefined
+              );
               console.log(filteredUploadedImg);
-              const imgUploads = await Promise.all(filteredUploadedImg.map((img)=>{
-                return awsS3Config.getImageUrl(img)
-              }))
-              const imgUrlsFromS3 = {}
-              for(const img of imgUploads){
-                 if(img.key == 'profileImg'){
-             imgUrlsFromS3['profileImg'] = img.url
-                 }else if(img.key == 'licenseImg'){
-                     imgUrlsFromS3['licenseImg'] = img.url
-                 }else if(img.key == 'permitImg'){
-                  console.log('image url',img.url)
-                     imgUrlsFromS3['permitImg'] = img.url
-                 }
+              const imgUploads = await Promise.all(
+                filteredUploadedImg.map((img) => {
+                  return awsS3Config.getImageUrl(img);
+                })
+              );
+              const imgUrlsFromS3 = {};
+              for (const img of imgUploads) {
+                if (img.key == "profileImg") {
+                  imgUrlsFromS3["profileImg"] = img.url;
+                } else if (img.key == "licenseImg") {
+                  imgUrlsFromS3["licenseImg"] = img.url;
+                } else if (img.key == "permitImg") {
+                  console.log("image url", img.url);
+                  imgUrlsFromS3["permitImg"] = img.url;
+                }
               }
               // console.log('image permit',imgUrlsFromS3.permitImg)
 
@@ -52,17 +67,17 @@ export class DriverLoginUseCase {
                 name: existingUser?.name,
                 email: existingUser?.email,
                 phone: existingUser?.phone,
-                licenseNumber:existingUser?.license_Number,
+                licenseNumber: existingUser?.license_Number,
                 vehicleType: existingUser?.vehicleDetails?.vehicle_type,
                 rc_Number: existingUser?.vehicleDetails?.rc_Number,
-                licenseUrl:imgUrlsFromS3?.licenseImg,
-                profileUrl:imgUrlsFromS3?.profileImg,
-                permitUrl:imgUrlsFromS3?.permitImg,
-                isBlocked:existingUser?.isBlocked,
-                isVerified:existingUser?.isVerified,
-                isProfileCompleted:existingUser?.isProfileComplete,
-                isAccepted:existingUser?.isAccepted,
-                editRequest:existingUser?.editRequest,
+                licenseUrl: imgUrlsFromS3?.licenseImg,
+                profileUrl: imgUrlsFromS3?.profileImg,
+                permitUrl: imgUrlsFromS3?.permitImg,
+                isBlocked: existingUser?.isBlocked,
+                isVerified: existingUser?.isVerified,
+                isProfileCompleted: existingUser?.isProfileComplete,
+                isAccepted: existingUser?.isAccepted,
+                editRequest: existingUser?.editRequest,
               };
               return {
                 data,
